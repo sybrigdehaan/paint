@@ -13,7 +13,7 @@ namespace Paint
     public partial class Form1 : Form
     {
         bool draw = false;
-        int x0, y0, x1, y1;
+        int x0, y0, x1, y1 = 0;
         Item currentItem; 
 
         public Form1()
@@ -21,46 +21,50 @@ namespace Paint
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e){}
+
         public enum Item { Rectangle, Ellipse }
 
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        private void pictureBoxMain_MouseDown(object sender, MouseEventArgs e)
         {
             draw = true;
             x0 = e.X;
-            y0 = e.Y; 
+            y0 = e.Y;
         }
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
-        {
-            draw = false;
-            x1 = e.X;
-            y1 = e.Y; 
-        }
-
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBoxMain_MouseMove(object sender, MouseEventArgs e)
         {
             if (draw)
             {
-                Graphics graphics = pictureBox1.CreateGraphics();
+                Graphics graphics = pictureBoxMain.CreateGraphics();
                 switch (currentItem)
                 {
                     case Item.Rectangle:
-                        graphics.FillRectangle(new SolidBrush(Color.FromArgb(50, Color.Gray)), x0, y0, e.X - x0, e.Y - y0);
+                        graphics.FillRectangle(new SolidBrush(Color.FromArgb(100, Color.Gray)), x0, y0, e.X - x0, e.Y - y0);
+                        break;
+                    case Item.Ellipse:
+                        graphics.FillEllipse(new SolidBrush(Color.FromArgb(100, Color.Red)), x0, y0, e.X - x0, e.Y - y0); 
                         break; 
-
                 }
 
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void pictureBoxMain_MouseUp(object sender, MouseEventArgs e)
         {
-
+            draw = false;
+            x1 = e.X;
+            y1 = e.Y;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void toolStripRectangle_Click(object sender, EventArgs e)
         {
-
+            currentItem = Item.Rectangle; 
+        }
+        
+        private void toolStripEllipse_Click(object sender, EventArgs e)
+        {
+            currentItem = Item.Ellipse;
         }
     }
 }

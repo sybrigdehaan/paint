@@ -1,0 +1,10 @@
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\bin\Debug\Paint.exe.config
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\bin\Debug\Paint.exe
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\bin\Debug\Paint.pdb
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\obj\Debug\Paint.csprojAssemblyReference.cache
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\obj\Debug\Paint.Form1.resources
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\obj\Debug\Paint.Properties.Resources.resources
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\obj\Debug\Paint.csproj.GenerateResource.cache
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\obj\Debug\Paint.csproj.CoreCompileInputs.cache
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\obj\Debug\Paint.exe
+\\Mac\Home\HBO-ICT 2 - Mac\Periode 3\Design patterns\Visual-editor\Code\Paint\obj\Debug\Paint.pdb
