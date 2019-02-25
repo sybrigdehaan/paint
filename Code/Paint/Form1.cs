@@ -12,9 +12,11 @@ namespace Paint
 {
     public partial class Form1 : Form
     {
+        Figure mainGroup; 
         bool draw = false;
         int x0, y0, x1, y1 = 0;
-        Item currentItem; 
+        Item currentItem;
+        Figure figure;
 
         public Form1()
         {
@@ -23,7 +25,7 @@ namespace Paint
 
         private void Form1_Load(object sender, EventArgs e){}
 
-        public enum Item { Rectangle, Ellipse }
+        public enum Item { Rectangle, Ellipse, DeleteGroup, AddGroup  }
 
         private void pictureBoxMain_MouseDown(object sender, MouseEventArgs e)
         {
@@ -46,7 +48,6 @@ namespace Paint
                         graphics.FillEllipse(new SolidBrush(Color.FromArgb(100, Color.Red)), x0, y0, e.X - x0, e.Y - y0); 
                         break; 
                 }
-
             }
         }
 
@@ -55,6 +56,27 @@ namespace Paint
             draw = false;
             x1 = e.X;
             y1 = e.Y;
+
+            switch (currentItem)
+            {
+                case Item.Rectangle:
+                    figure = new Figure("Rectangle", x0, y0, e.X - x0, e.Y - y0);
+                    break;
+                case Item.Ellipse:
+                    figure = new Figure("Ellipse", x0, y0, e.X - x0, e.Y - y0);
+                    break; 
+            }
+            figure.Add(figure);
+        }
+
+        private void toolStripDeleteGroup_Click(object sender, EventArgs e)
+        {
+            currentItem = Item.DeleteGroup;
+        }
+
+        private void toolStripAddGroup_Click(object sender, EventArgs e)
+        {
+            currentItem = Item.AddGroup;
         }
 
         private void toolStripRectangle_Click(object sender, EventArgs e)
@@ -66,5 +88,6 @@ namespace Paint
         {
             currentItem = Item.Ellipse;
         }
+
     }
 }
