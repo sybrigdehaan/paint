@@ -53,10 +53,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Group.cs" />
-    <Compile Include="IFigures.cs" />
+    <Compile Include="Composite\Group.cs" />
+    <Compile Include="Interface\IFigures.cs" />
+    <Compile Include="Interface\IMakeFigures.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategy\MakeRectangle.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
