@@ -21,7 +21,18 @@ namespace Paint
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e){}
+        // size canvas 1397; 783
+        // location 0; 0 
+        private void Form1_Load(object sender, EventArgs e){
+
+            var picturebox = new PictureBox
+            {
+                Name = "pictureBox",
+                Size = new Size(1397, 783),
+                Location = new Point(0, 0)
+            };
+            this.Controls.Add(picturebox);
+        }
 
         public enum Item { Rectangle, Ellipse, DeleteGroup, AddGroup }
 
