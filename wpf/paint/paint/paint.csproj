@@ -94,5 +94,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\add_group.png" />
+    <Resource Include="Icons\circle.png" />
+    <Resource Include="Icons\delete_group.png" />
+    <Resource Include="Icons\open_folder.png" />
+    <Resource Include="Icons\save.png" />
+    <Resource Include="Icons\square.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

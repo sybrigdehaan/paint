@@ -7,7 +7,31 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Canvas HorizontalAlignment="Left" Height="388" Margin="31,33,0,-0.333" VerticalAlignment="Top" Width="762"/>
+        <ToolBarTray HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="785">
+            <ToolBar HorizontalAlignment="Left" Height="67" VerticalAlignment="Top" Width="293" Margin="0,0,-269,-54">
+                <Button Content="" Height="62" VerticalAlignment="Top" Width="63" Margin="0,1,0,-1">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Icons/open_folder.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Content="" Height="62" VerticalAlignment="Top" Width="57" Margin="0,1,0,-1">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Icons/save.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Content="Button" Height="62" VerticalAlignment="Top" Width="74" Click="Button_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Icons/delete_group.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Content="Button" Height="62" VerticalAlignment="Top" Width="74">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Icons/add_group.png"/>
+                    </Button.Background>
+                </Button>
+            </ToolBar>
+
+        </ToolBarTray>
 
     </Grid>
 </Window>
