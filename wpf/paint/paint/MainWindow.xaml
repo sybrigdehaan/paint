@@ -5,33 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:paint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="520" Width="802.5">
     <Grid>
-        <ToolBarTray HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="785">
-            <ToolBar HorizontalAlignment="Left" Height="67" VerticalAlignment="Top" Width="293" Margin="0,0,-269,-54">
-                <Button Content="" Height="62" VerticalAlignment="Top" Width="63" Margin="0,1,0,-1">
-                    <Button.Background>
-                        <ImageBrush ImageSource="Icons/open_folder.png"/>
-                    </Button.Background>
+        <ToolBarTray HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="795">
+            <ToolBar HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="149">
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image Source="Icons/open_folder.png"></Image>
+                    </Button.Content>
                 </Button>
-                <Button Content="" Height="62" VerticalAlignment="Top" Width="57" Margin="0,1,0,-1">
-                    <Button.Background>
-                        <ImageBrush ImageSource="Icons/save.png"/>
-                    </Button.Background>
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image Source="Icons/save.png" Cursor="Hand"></Image>
+                    </Button.Content>
                 </Button>
-                <Button Content="Button" Height="62" VerticalAlignment="Top" Width="74" Click="Button_Click">
-                    <Button.Background>
-                        <ImageBrush ImageSource="Icons/delete_group.png"/>
-                    </Button.Background>
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image Source="Icons/delete_group.png" Cursor="Hand"></Image>
+                    </Button.Content>
                 </Button>
-                <Button Content="Button" Height="62" VerticalAlignment="Top" Width="74">
-                    <Button.Background>
-                        <ImageBrush ImageSource="Icons/add_group.png"/>
-                    </Button.Background>
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image Source="Icons/add_group.png" Cursor="Hand"></Image>
+                    </Button.Content>
                 </Button>
             </ToolBar>
 
+            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Width="84" Margin="0,0,-636,0" >
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image Source="Icons/square.png" Cursor="Hand"></Image>
+                    </Button.Content>
+                </Button>
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image Source="Icons/circle.png" Cursor="Hand"></Image>
+                    </Button.Content>
+                </Button>
+            </ToolBar>
         </ToolBarTray>
-
     </Grid>
 </Window>
