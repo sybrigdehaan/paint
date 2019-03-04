@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="520" Width="802.5">
     <Grid>
-        <ToolBarTray HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="795">
+        <ToolBarTray HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="795" Grid.ColumnSpan="2">
             <ToolBar HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="149">
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
@@ -31,18 +31,21 @@
                 </Button>
             </ToolBar>
 
-            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Width="84" Margin="0,0,-636,0" >
+            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Width="85" Margin="0,0,-636,0" >
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
-                        <Image Source="Icons/square.png" Cursor="Hand"></Image>
+                        <Image x:Name="Rectangle" Source="Icons/square.png" Cursor="Hand" MouseLeftButtonDown="Button_MakeFigure_MouseLeftButtonDown"/>
                     </Button.Content>
                 </Button>
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
-                        <Image Source="Icons/circle.png" Cursor="Hand"></Image>
+                        <Image x:Name="Ellipse" Source="Icons/circle.png" Cursor="Hand" MouseLeftButtonDown="Button_MakeFigure_MouseLeftButtonDown"/>
                     </Button.Content>
                 </Button>
             </ToolBar>
         </ToolBarTray>
+        <InkCanvas x:Name="MyInkCanvas" HorizontalAlignment="Left" Height="457" Margin="0,35,-0.5,0" VerticalAlignment="Top" Width="798" 
+                   PreviewMouseLeftButtonDown="InkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="InkCanvas_MouseLeftButtonUp" 
+                   MouseMove="InkCanvas_MouseMove" EditingMode="None"/>
     </Grid>
 </Window>
