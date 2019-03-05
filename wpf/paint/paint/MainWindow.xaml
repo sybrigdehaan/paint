@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:paint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="520" Width="802.5">
+        Title="MainWindow" Height="520" Width="792.5">
     <Grid>
         <ToolBarTray HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="795" Grid.ColumnSpan="2">
-            <ToolBar HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="149">
+            <ToolBar HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="85">
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
-                        <Image Source="Icons/open_folder.png"></Image>
+                        <Image Source="Icons/open_folder.png" Cursor="Hand"></Image>
                     </Button.Content>
                 </Button>
                 <Button Height="30" VerticalAlignment="Top" Width="30">
@@ -19,19 +19,32 @@
                         <Image Source="Icons/save.png" Cursor="Hand"></Image>
                     </Button.Content>
                 </Button>
+            </ToolBar>
+
+            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" Margin="0,0,-60,0">
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
-                        <Image Source="Icons/delete_group.png" Cursor="Hand"></Image>
+                        <Image x:Name="Delete_Group" Source="Icons/delete_group.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown"></Image>
                     </Button.Content>
                 </Button>
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
-                        <Image Source="Icons/add_group.png" Cursor="Hand"></Image>
+                        <Image x:Name="Add_Group" Source="Icons/add_group.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown"></Image>
+                    </Button.Content>
+                </Button>
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image x:Name="Select" Source="Icons/select.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown" Height="30" Width="30"/>
+                    </Button.Content>
+                </Button>
+                <Button Height="30" VerticalAlignment="Top" Width="30">
+                    <Button.Content>
+                        <Image x:Name="Eraser" Source="Icons/eraser.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown"/>
                     </Button.Content>
                 </Button>
             </ToolBar>
 
-            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Width="85" Margin="0,0,-636,0" >
+            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="85" Margin="515,0,-600,0" >
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
                         <Image x:Name="Rectangle" Source="Icons/square.png" Cursor="Hand" MouseLeftButtonDown="Button_MakeFigure_MouseLeftButtonDown"/>
@@ -44,7 +57,7 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <InkCanvas x:Name="MyInkCanvas" HorizontalAlignment="Left" Height="457" Margin="0,35,-0.5,0" VerticalAlignment="Top" Width="798" 
+        <InkCanvas x:Name="MyInkCanvas" HorizontalAlignment="Left" Height="457" Margin="0,35,-0.5,0" VerticalAlignment="Top" Width="788" 
                    PreviewMouseLeftButtonDown="InkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="InkCanvas_MouseLeftButtonUp" 
                    MouseMove="InkCanvas_MouseMove" EditingMode="None"/>
     </Grid>

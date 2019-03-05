@@ -66,7 +66,6 @@
     <Compile Include="Code\Figure.cs" />
     <Compile Include="Code\Group.cs" />
     <Compile Include="Interfaces\IFigures.cs" />
-    <Compile Include="Interfaces\IMakeFigures.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -105,6 +104,12 @@
     <Resource Include="Icons\open_folder.png" />
     <Resource Include="Icons\save.png" />
     <Resource Include="Icons\square.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\select.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\eraser.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
