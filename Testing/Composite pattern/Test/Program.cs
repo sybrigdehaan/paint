@@ -28,9 +28,6 @@ namespace Test
 
             directorGroup.showEmployeeDetails();
             Console.ReadKey(); 
-
-
-
         }
 
         public interface Figures

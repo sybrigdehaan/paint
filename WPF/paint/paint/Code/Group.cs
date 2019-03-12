@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Shapes;
+using System.Windows.Controls;
 
 namespace paint
 {
     public class Group : IFigures
     {
-        private string name;
+        private Grid grid = new Grid(); 
         private List<IFigures> subFigures = new List<IFigures>();
 
-        public Group(string name)
+        public void AddToInkCanvas(InkCanvas myInkCanvas)
         {
-            this.name = name;
+            myInkCanvas.Children.Add(grid); 
         }
 
         public void Add(IFigures group)
@@ -28,10 +27,18 @@ namespace paint
 
         public void ShowFigureDetails()
         {
-            Console.WriteLine("Group: " + name);
+            Console.WriteLine("Group");
             foreach (IFigures fig in subFigures)
             {
                 fig.ShowFigureDetails();
+            }
+        }
+
+        public void CheckShape(ref List<_Shape> checkIsTrue, Shape shape)
+        {
+            foreach (IFigures fig in subFigures)
+            {
+                fig.CheckShape(ref checkIsTrue, shape); 
             }
         }
     }
