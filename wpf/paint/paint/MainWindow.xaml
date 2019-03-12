@@ -21,7 +21,7 @@
                 </Button>
             </ToolBar>
 
-            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" Margin="0,0,-60,0">
+            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="174" Margin="-0.333,0,-88.333,-0.333">
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
                         <Image x:Name="Delete_Group" Source="Icons/delete_group.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown"></Image>
@@ -40,6 +40,11 @@
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
                         <Image x:Name="Eraser" Source="Icons/eraser.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown"/>
+                    </Button.Content>
+                </Button>
+                <Button Height="30" VerticalAlignment="Top" Width="30" RenderTransformOrigin="0.894,-0.711">
+                    <Button.Content>
+                        <Image x:Name="Ornament" Source="Icons/add_ornament.png" Cursor="Hand" MouseLeftButtonDown="Button_AddToFigure_MouseLeftButtonDown"/>
                     </Button.Content>
                 </Button>
             </ToolBar>
