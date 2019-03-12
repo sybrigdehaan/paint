@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Collections.Generic; 
 
 namespace paint
 {
@@ -13,11 +14,13 @@ namespace paint
         public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
 
         private Items currentItem;
-        bool drawn = false; 
+        bool drawn = false;
         
+        List<_Shape> checkIsTrue; 
+        Group myMainGroup = new Group();
+        Group myGroup;
         _Ellipse myEllipse;
-        _Rectangle myRectangle; 
- 
+        _Rectangle myRectangle;
 
         public MainWindow()
         {
@@ -33,7 +36,7 @@ namespace paint
             switch (((FrameworkElement)sender).Name)
             {
                 case "Rectangle":
-                    currentItem = Items.Rectangle; 
+                    currentItem = Items.Rectangle;
                     break;
                 case "Ellipse":
                     currentItem = Items.Ellipse;
@@ -43,29 +46,31 @@ namespace paint
 
         private void Button_ChangeFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            currentItem = Items.None; 
+            currentItem = Items.None;
+            Shape[] myArray = new Shape[MyInkCanvas.GetSelectedElements().Count];
+            MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
+
             switch (((FrameworkElement)sender).Name)
             {
                 case "Delete_Group":
-                    currentItem = Items.DeleteGroup;
                     break;
+
                 case "Add_Group":
-                    currentItem = Items.AddGroup;
+                    myGroup = new Group();
+                    checkIsTrue = new List<_Shape>(); 
+                    for (int i = 0; i < myArray.Length; i++)
+                    {
+                        myMainGroup.CheckShape(ref checkIsTrue, myArray[i]);
+                    }
                     break;
+
                 case "Select":
                     MyInkCanvas.EditingMode = InkCanvasEditingMode.Select;
                     break;
-                case "Eraser":
-                    UIElement[] myArray = new UIElement[MyInkCanvas.GetSelectedElements().Count];
-                    MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
+                case "Eraser":
                     for (int i = 0; i < myArray.Length; i++)
-                    {
-                        if(MyInkCanvas.Children.Contains(myArray[i]))
-                        {
-                            MyInkCanvas.Children.Remove(myArray[i]); 
-                        }
-                    }
+                        MyInkCanvas.Children.Remove(myArray[i]);
                     break;
             }
         }
@@ -80,7 +85,7 @@ namespace paint
             {
                 case Items.Rectangle:
                     myRectangle = new _Rectangle();
-                    myRectangle.Draw(ref MyInkCanvas); 
+                    myRectangle.Draw(ref MyInkCanvas);
                     break;
                 case Items.Ellipse:
                     myEllipse = new _Ellipse();
@@ -92,6 +97,15 @@ namespace paint
         private void InkCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             drawn = false;
+            switch (currentItem)
+            {
+                case Items.Rectangle:
+                    myMainGroup.Add(myRectangle); 
+                    break;
+                case Items.Ellipse:
+                    myMainGroup.Add(myEllipse); 
+                    break;
+            }
         }
 
         private void InkCanvas_MouseMove(object sender, MouseEventArgs e)
@@ -104,10 +118,10 @@ namespace paint
                 switch (currentItem)
                 {
                     case Items.Rectangle:
-                        myRectangle.ChangeFigure(); 
+                        myRectangle.ChangeFigure(x1, x2, y1, y2);
                         break;
                     case Items.Ellipse:
-                        myEllipse.ChangeFigure();
+                        myEllipse.ChangeFigure(x1, x2, y1, y2);
                         break;
                 }
             }
