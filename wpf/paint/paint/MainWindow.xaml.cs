@@ -27,7 +27,7 @@ namespace paint
             mySolidColorBrushRed.Color = Color.FromArgb(255, 255, 0, 0);
         }
 
-        public enum Items { None, OpenFile, SaveFile, DeleteGroup, AddGroup, Select, Eraser, Rectangle, Ellipse }
+        public enum Items { None, OpenFile, SaveFile, DeleteGroup, AddGroup, Select, Eraser, Ornament, Rectangle, Ellipse }
 
         private void Button_MakeFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -65,6 +65,36 @@ namespace paint
                         MyInkCanvas.Children.Remove(myArray[i]);
                     break;
             }
+        }
+
+        private void Button_AddToFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            UIElement[] myArray = new UIElement[MyInkCanvas.GetSelectedElements().Count];
+            MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
+
+            switch (currentItem)
+            {
+                case Items.Select:
+
+                    //for (int i = 0; i < myArray.Length; i++)
+                    //{
+
+                    //}
+
+                    //.Add(new TextBlock { Text = "ornament" });
+
+                    var color = Color.FromArgb(0, 0, 0, 0);
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = "ornament";
+                    InkCanvas.SetLeft(textBlock, 100);
+                    InkCanvas.SetTop(textBlock, 100);
+                    textBlock.Margin = new Thickness(100, 100, 0, 0);
+                    MyInkCanvas.Children.Add(textBlock);
+                    break;
+            }
+
+            Left ornament = new Left();
+
         }
 
         private void InkCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -119,4 +149,5 @@ namespace paint
             }
         }
     }
+
 }
