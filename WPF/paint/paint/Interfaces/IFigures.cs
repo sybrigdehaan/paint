@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes; 
 
 namespace paint
@@ -10,6 +12,7 @@ namespace paint
     public interface IFigures
     {
         void ShowFigureDetails();
-        void CheckShape(ref List<_Shape> checkIsTrue, Shape shape); 
+        void Get_Shape(FrameworkElement shape, ref List<IFigures> _ShapesList);
+        FrameworkElement GetShape();
     }
 }

@@ -12,6 +12,8 @@ namespace paint
         protected Shape myShape;
         protected double left, top, width, height;
 
+        public FrameworkElement GetShape(){ return myShape;  }
+
         public void Draw(ref InkCanvas MyInkCanvas)
         {
             MyInkCanvas.Children.Add(myShape);
@@ -42,10 +44,15 @@ namespace paint
 
         public virtual void ShowFigureDetails(){}
 
-        public void CheckShape(ref List<_Shape> checkIsTrue, Shape shape)
+        public void Get_Shape(FrameworkElement shape, ref List<IFigures> _ShapesList)
         {
-            if(shape == myShape) { checkIsTrue.Add(this); }
+            if(shape == myShape) { _ShapesList.Add(this); }
         }
+
+        //public void GetShape(IFigures figure, ref List<FrameworkElement> shapesList)
+        //{
+        //    if(figure == this) { shapesList.Add(myShape); }
+        //}
     }
 
     public class _Rectangle : _Shape
