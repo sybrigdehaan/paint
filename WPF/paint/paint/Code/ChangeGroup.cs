@@ -66,8 +66,16 @@ namespace paint
             MyInkCanvas.Children.Add(groupInkCanvas);
         }
 
+        //Select haalt een frameworkelement op uit de canvas die in myarray staat
+        //Deze frameworkelement moet je opzoeken in mymaincanvas, je moet dan door alle custum objecten in de mymaincanvas en check of het inkcanvas object hetzelfde is dat geselecteert is 
+        //Als dit zou is return dan het custum object. Kijk in dit custum object /// naar wat voor sub custum objecten hij heeft en zet deze in een list (dit kunnen custom shapes en of custom groups zijn).
+        //Verwijder de custum object uit de myMainCanvas en zet de andere custum objecten er weer in. 
+
         public static void Un_Group(FrameworkElement[] myArray, ref Group myMainGroup, ref InkCanvas MyInkCanvas)
         {
+            double top = InkCanvas.GetTop(myArray[0]);
+            double left = InkCanvas.GetLeft(myArray[0]);
+
             List<Group> frameworkList = new List<Group>(); //The selected framework custum group
             List<IFigures> inGroupList = new List<IFigures>(); //The selected framework custum group subFigures
             List<FrameworkElement> shapesList = new List<FrameworkElement>(); //The subfigures there FrameworkElements
@@ -76,20 +84,24 @@ namespace paint
             {
                 myMainGroup.Find(myArray[i], ref frameworkList);
                 myMainGroup.Remove(frameworkList[i]);
+                MyInkCanvas.Children.Remove(myArray[i]); 
                 inGroupList = frameworkList[i].SubFigures;
             }
-
+           
             foreach (IFigures figure in inGroupList)
             {
+                (myArray[0] as InkCanvas).Children.Remove(figure.GetShape());
                 myMainGroup.Add(figure);
-                MyInkCanvas.Children.Add(figure.GetShape());
+                FrameworkElement element = figure.GetShape();
+                double elementTop = InkCanvas.GetTop(element) + top;
+                double elementLeft = InkCanvas.GetLeft(element) + left;
+
+                InkCanvas.SetTop(element, elementTop);
+                InkCanvas.SetLeft(element, elementLeft);
+
+                MyInkCanvas.Children.Add(element);
             }
         }
-
-        //Select haalt een frameworkelement op uit de canvas die in myarray staat
-        //Deze frameworkelement moet je opzoeken in mymaincanvas, je moet dan door alle custum objecten in de mymaincanvas en check of het inkcanvas object hetzelfde is dat geselecteert is 
-        //Als dit zou is return dan het custum object. Kijk in dit custum object /// naar wat voor sub custum objecten hij heeft en zet deze in een list (dit kunnen custom shapes en of custom groups zijn).
-        //Verwijder de custum object uit de myMainCanvas en zet de andere custum objecten er weer in. 
 
         private static void SizeChanged(object sender, SizeChangedEventArgs e)
         {

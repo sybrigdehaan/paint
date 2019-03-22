@@ -29,10 +29,13 @@ namespace paint
         //Is used for ungroup
         public void Find(FrameworkElement element, ref List<Group> frameworkList)
         {
-            foreach (Group fig in subFigures)
+            foreach (IFigures fig in subFigures)
             {
-                if (fig.groupInkCanvas == element)
-                    frameworkList.Add(fig);
+                if (typeof(Group) == fig.GetType())
+                {
+                    if ((fig as Group).groupInkCanvas == element)
+                        frameworkList.Add((fig as Group));
+                }
             }
         }
         
