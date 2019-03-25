@@ -18,49 +18,44 @@ namespace paint
 
             groupInkCanvas.EditingMode = InkCanvasEditingMode.None;
             groupInkCanvas.Background = Brushes.Transparent;
-
-            double top = InkCanvas.GetTop(myArray[0]);
-            double left = InkCanvas.GetLeft(myArray[0]);
-            double farthestLeft = 0;
-            double farthestTop = 0;
-
-            FrameworkElement shapeTop = myArray[0], shapeLeft = myArray[0], shapeFarthestLeft = myArray[0], shapeFarthestTop = myArray[0];
-
             groupInkCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
+
+            double nearestTop = InkCanvas.GetTop(myArray[0]), nearestLeft = InkCanvas.GetLeft(myArray[0]);
+            double farthestRight = 0, farthestBottom = 0;
+
             List<IFigures> _ShapesList = new List<IFigures>();
-            List<IFigures> _SubListSelected = new List<IFigures>();
 
             for (int i = 0; i < myArray.Length; i++)
             {
                 myMainGroup.Get_Shape(myArray[i], ref _ShapesList);
-                myMainGroup.Find(_ShapesList[i], ref _SubListSelected);
-                myMainGroup.Remove(_SubListSelected[i]);
+                myMainGroup.Remove(_ShapesList[i]);
 
                 MyInkCanvas.Children.Remove(myArray[i]);
                 groupInkCanvas.Children.Add(myArray[i]);
                 myGroup.Add(_ShapesList[i]);
 
-                //Checking how the inkcanvas group position must be. 
-                if (InkCanvas.GetLeft(myArray[i]) < left) { left = InkCanvas.GetLeft(myArray[i]); shapeLeft = myArray[i]; }
-                if (InkCanvas.GetTop(myArray[i]) < top) { top = InkCanvas.GetTop(myArray[i]); shapeTop = myArray[i]; }
+                //Checking how the inkcanvas position must be. 
+                if (InkCanvas.GetLeft(myArray[i]) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(myArray[i]); }
+                if (InkCanvas.GetTop(myArray[i]) < nearestTop) { nearestTop = InkCanvas.GetTop(myArray[i]); }
             }
 
             foreach (FrameworkElement myShape in myArray)
             {
+                //Set the right top and left for the object to set in the inkcanvas
                 double myTop = InkCanvas.GetTop(myShape);
                 double myLeft = InkCanvas.GetLeft(myShape);
-                InkCanvas.SetTop(myShape, (myTop - top));
-                InkCanvas.SetLeft(myShape, (myLeft - left));
+                InkCanvas.SetTop(myShape, (myTop - nearestTop));
+                InkCanvas.SetLeft(myShape, (myLeft - nearestLeft));
 
-                //Checking which object is the farthest away. 
-                if (InkCanvas.GetLeft(myShape) > farthestLeft) { farthestLeft = InkCanvas.GetLeft(myShape); shapeFarthestLeft = myShape; }
-                if (InkCanvas.GetTop(myShape) > farthestTop) { farthestTop = InkCanvas.GetTop(myShape); shapeFarthestTop = myShape; }
+                //Checking which object is the farthest away for the width and height of the inkcanvas. 
+                if (InkCanvas.GetLeft(myShape) + myShape.Width > farthestRight) { farthestRight = InkCanvas.GetLeft(myShape) + myShape.Width; }
+                if (InkCanvas.GetTop(myShape) + myShape.Height > farthestBottom) { farthestBottom = InkCanvas.GetTop(myShape) + myShape.Height; }
             }
 
-            InkCanvas.SetTop(groupInkCanvas, top);
-            InkCanvas.SetLeft(groupInkCanvas, left);
-            groupInkCanvas.Width = farthestLeft + shapeFarthestLeft.Width;
-            groupInkCanvas.Height = farthestTop + shapeFarthestTop.Height;
+            InkCanvas.SetTop(groupInkCanvas, nearestTop);
+            InkCanvas.SetLeft(groupInkCanvas, nearestLeft);
+            groupInkCanvas.Width = farthestRight;
+            groupInkCanvas.Height = farthestBottom;
 
             myMainGroup.Add(myGroup);
             MyInkCanvas.Children.Add(groupInkCanvas);
@@ -68,38 +63,37 @@ namespace paint
 
         //Select haalt een frameworkelement op uit de canvas die in myarray staat
         //Deze frameworkelement moet je opzoeken in mymaincanvas, je moet dan door alle custum objecten in de mymaincanvas en check of het inkcanvas object hetzelfde is dat geselecteert is 
-        //Als dit zou is return dan het custum object. Kijk in dit custum object /// naar wat voor sub custum objecten hij heeft en zet deze in een list (dit kunnen custom shapes en of custom groups zijn).
+        //Als dit zou is return dan het custum object. Kijk in dit custum object naar wat voor sub custum objecten hij heeft en zet deze in een list (dit kunnen custom shapes en of custom groups zijn).
         //Verwijder de custum object uit de myMainCanvas en zet de andere custum objecten er weer in. 
 
         public static void Un_Group(FrameworkElement[] myArray, ref Group myMainGroup, ref InkCanvas MyInkCanvas)
         {
-            double top = InkCanvas.GetTop(myArray[0]);
-            double left = InkCanvas.GetLeft(myArray[0]);
-
-            List<Group> frameworkList = new List<Group>(); //The selected framework custum group
-            List<IFigures> inGroupList = new List<IFigures>(); //The selected framework custum group subFigures
-            List<FrameworkElement> shapesList = new List<FrameworkElement>(); //The subfigures there FrameworkElements
-
-            for (int i = 0; i < myArray.Length; i++)
+            if (myArray.Length == 1 && myArray[0].GetType() == typeof(InkCanvas))
             {
-                myMainGroup.Find(myArray[i], ref frameworkList);
-                myMainGroup.Remove(frameworkList[i]);
-                MyInkCanvas.Children.Remove(myArray[i]); 
-                inGroupList = frameworkList[i].SubFigures;
-            }
-           
-            foreach (IFigures figure in inGroupList)
-            {
-                (myArray[0] as InkCanvas).Children.Remove(figure.GetShape());
-                myMainGroup.Add(figure);
-                FrameworkElement element = figure.GetShape();
-                double elementTop = InkCanvas.GetTop(element) + top;
-                double elementLeft = InkCanvas.GetLeft(element) + left;
+                Group selectedFrameworkGroup = new Group(); //The selected framework custum group
+                List<IFigures> inGroupList = new List<IFigures>(); //The selected framework custum group subFigures
 
-                InkCanvas.SetTop(element, elementTop);
-                InkCanvas.SetLeft(element, elementLeft);
+                myMainGroup.Find(myArray[0], ref selectedFrameworkGroup);
+                myMainGroup.Remove(selectedFrameworkGroup);
+                MyInkCanvas.Children.Remove(myArray[0]);
+                inGroupList = selectedFrameworkGroup.SubFigures;
 
-                MyInkCanvas.Children.Add(element);
+                foreach (IFigures figure in inGroupList)
+                {
+                    (myArray[0] as InkCanvas).Children.Remove(figure.GetShape());
+
+                    FrameworkElement element = figure.GetShape();
+                    double elementTop = InkCanvas.GetTop(element) + InkCanvas.GetTop(myArray[0]);
+                    double elementLeft = InkCanvas.GetLeft(element) + InkCanvas.GetLeft(myArray[0]);
+
+                    InkCanvas.SetTop(element, elementTop);
+                    InkCanvas.SetLeft(element, elementLeft);
+
+                    myMainGroup.Add(figure);
+                    MyInkCanvas.Children.Add(element);
+                }
+            } else {
+                MessageBox.Show("Je hebt meer dan 1 object of geen groep object geselecteerd!"); 
             }
         }
 

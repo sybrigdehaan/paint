@@ -48,11 +48,6 @@ namespace paint
         {
             if(shape == myShape) { _ShapesList.Add(this); }
         }
-
-        //public void GetShape(IFigures figure, ref List<FrameworkElement> shapesList)
-        //{
-        //    if(figure == this) { shapesList.Add(myShape); }
-        //}
     }
 
     public class _Rectangle : _Shape

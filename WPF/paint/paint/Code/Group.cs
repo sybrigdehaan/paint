@@ -27,25 +27,15 @@ namespace paint
         }
         
         //Is used for ungroup
-        public void Find(FrameworkElement element, ref List<Group> frameworkList)
+        public void Find(FrameworkElement element, ref Group selectedFrameworkGroup)
         {
             foreach (IFigures fig in subFigures)
             {
                 if (typeof(Group) == fig.GetType())
                 {
                     if ((fig as Group).groupInkCanvas == element)
-                        frameworkList.Add((fig as Group));
+                        selectedFrameworkGroup = ((fig as Group));
                 }
-            }
-        }
-        
-        //Is used for group
-        public void Find(IFigures group, ref List<IFigures> _SubListSelected)
-        {
-            foreach(IFigures fig in subFigures)
-            {
-                if (fig == group)
-                    _SubListSelected.Add(fig); 
             }
         }
 
@@ -67,15 +57,5 @@ namespace paint
                 fig.Get_Shape(shape, ref _ShapesList); 
             }
         }
-
-        //public void GetShape(IFigures figure, ref List<FrameworkElement> shapesList)
-        //{
-        //    if (figure == this) { shapesList.Add(groupInkCanvas); }
-        //    foreach (IFigures fig in subFigures)
-        //    {
-        //        fig.GetShape(figure, ref shapesList);
-        //    }
-        //}
-
     }
 }

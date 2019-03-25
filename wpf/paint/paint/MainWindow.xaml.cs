@@ -61,8 +61,13 @@ namespace paint
                     MyInkCanvas.EditingMode = InkCanvasEditingMode.Select;
                     break;
                 case "Eraser":
+                    List<IFigures> _ShapesList = new List<IFigures>();
                     for (int i = 0; i < myArray.Length; i++)
+                    {
                         MyInkCanvas.Children.Remove(myArray[i]);
+                        myMainGroup.Get_Shape(myArray[i], ref _ShapesList);
+                        myMainGroup.Remove(_ShapesList[i]);
+                    }
                     break;
             }
         }
