@@ -13,6 +13,8 @@ namespace paint
         protected List<Ornament> myOrnament;
         protected double left, top, width, height;
 
+        public FrameworkElement GetShape(){ return myShape;  }
+
         public Ornament _Ornament { set { myOrnament.Add(value); } }
 
         public void Draw(ref InkCanvas MyInkCanvas)
@@ -45,9 +47,9 @@ namespace paint
 
         public virtual void ShowFigureDetails(){}
 
-        public void CheckShape(ref List<_Shape> checkIsTrue, Shape shape)
+        public void Get_Shape(FrameworkElement shape, ref List<IFigures> _ShapesList)
         {
-            if(shape == myShape) { checkIsTrue.Add(this); }
+            if(shape == myShape) { _ShapesList.Add(this); }
         }
     }
 

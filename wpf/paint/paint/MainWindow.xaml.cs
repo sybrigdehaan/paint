@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System.Windows.Ink;
 
 namespace paint
 {
@@ -15,10 +16,9 @@ namespace paint
 
         private Items currentItem;
         bool drawn = false;
-
-        List<_Shape> checkIsTrue;
+        
+        List<_Shape> checkIsTrue; 
         Group myMainGroup = new Group();
-        Group myGroup;
         _Ellipse myEllipse;
         _Rectangle myRectangle;
 
@@ -47,42 +47,45 @@ namespace paint
         private void Button_ChangeFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             currentItem = Items.None;
-            Shape[] myArray = new Shape[MyInkCanvas.GetSelectedElements().Count];
+            FrameworkElement[] myArray = new FrameworkElement[MyInkCanvas.GetSelectedElements().Count];
             MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
             switch (((FrameworkElement)sender).Name)
             {
                 case "Delete_Group":
+                    ChangeGroup.Un_Group(myArray, ref myMainGroup, ref MyInkCanvas);
                     break;
-
                 case "Add_Group":
-                    myGroup = new Group();
-                    checkIsTrue = new List<_Shape>();
-                    for (int i = 0; i < myArray.Length; i++)
-                    {
-                        myMainGroup.CheckShape(ref checkIsTrue, myArray[i]);
-                    }
+                    ChangeGroup.AddTo_Group(myArray, ref myMainGroup, ref MyInkCanvas);
                     break;
-
                 case "Select":
                     MyInkCanvas.EditingMode = InkCanvasEditingMode.Select;
-                    currentItem = Items.Select;
                     break;
-
                 case "Eraser":
+                    List<IFigures> _ShapesList = new List<IFigures>();
                     for (int i = 0; i < myArray.Length; i++)
+                    {
                         MyInkCanvas.Children.Remove(myArray[i]);
+                        myMainGroup.Get_Shape(myArray[i], ref _ShapesList);
+                        myMainGroup.Remove(_ShapesList[i]);
+                    }
                     break;
             }
         }
 
-        // ornament op een mooie plek 
-        // ornament top: 
-        //private void Button_AddToFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-           
+        private void Button_AddToFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            UIElement[] myArray = new UIElement[MyInkCanvas.GetSelectedElements().Count];
+            MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
-        //}
+            switch (currentItem)
+            {
+                case Items.Select:
+
+                    //for (int i = 0; i < myArray.Length; i++)
+                    //{
+
+                    //}
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {

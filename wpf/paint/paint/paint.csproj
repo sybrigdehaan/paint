@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Code\ChangeGroup.cs" />
     <Compile Include="Code\Figure.cs" />
     <Compile Include="Code\Group.cs" />
     <Compile Include="Code\Ornament.cs" />
