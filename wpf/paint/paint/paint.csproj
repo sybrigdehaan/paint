@@ -67,6 +67,7 @@
     <Compile Include="Code\Figure.cs" />
     <Compile Include="Code\Group.cs" />
     <Compile Include="Code\Ornament.cs" />
+    <Compile Include="Code\MyMainGroup_Singleton.cs" />
     <Compile Include="Interfaces\IFigures.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
