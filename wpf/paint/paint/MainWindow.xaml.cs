@@ -81,11 +81,14 @@ namespace paint
             switch (currentItem)
             {
                 case Items.Select:
+                    break;
 
                     //for (int i = 0; i < myArray.Length; i++)
                     //{
 
                     //}
+            }
+        }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
