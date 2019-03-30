@@ -17,6 +17,7 @@ namespace paint
         private Items currentItem;
         bool drawn = false;
         
+        List<_Shape> checkIsTrue; 
         Group myMainGroup = new Group();
         _Ellipse myEllipse;
         _Rectangle myRectangle;
@@ -86,20 +87,59 @@ namespace paint
 
                     //}
 
-                    //.Add(new TextBlock { Text = "ornament" });
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var color = Color.FromArgb(0, 0, 0, 0);
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = "ornament";
+            InkCanvas.SetLeft(textBlock, 100);
+            InkCanvas.SetTop(textBlock, 100);
+            
+        }
 
-                    var color = Color.FromArgb(0, 0, 0, 0);
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = "ornament";
-                    InkCanvas.SetLeft(textBlock, 100);
-                    InkCanvas.SetTop(textBlock, 100);
-                    textBlock.Margin = new Thickness(100, 100, 0, 0);
-                    MyInkCanvas.Children.Add(textBlock);
+        private void Button_AddToFigure_MouseLeftButtonDown(object sender, RoutedEventArgs e)
+        {
+            // haalt alle geslecteerde items op en zet het in array Shape
+            FrameworkElement[] myArray = new FrameworkElement[MyInkCanvas.GetSelectedElements().Count];
+            MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
+
+            // haalt naam op van de het aangeklikte element
+            switch (((FrameworkElement)sender).Name)
+            {
+                case "OrnamentRight":
+                    double ornamentRightLeft = InkCanvas.GetLeft(myArray[0]);
+                    double ornamentRightTop = InkCanvas.GetTop(myArray[0]);
+                    double OrnamentRightHeigth = myArray[0].Height / 2;
+                    double OrnamentRightWidht = myArray[0].Width;
+                    Right ornamentRight = new Right("ornament", (ornamentRightLeft + OrnamentRightWidht), (OrnamentRightHeigth + ornamentRightTop));
+                    ornamentRight.Add(ref MyInkCanvas);
+                    break;
+
+                case "OrnamentLeft":
+                    double OrnamentLeftLeft = InkCanvas.GetLeft(myArray[0]);
+                    double OrnamentLeftTop = InkCanvas.GetTop(myArray[0]);
+                    double OrnamentLeftHeigth = myArray[0].Height / 2;
+                    Left ornamentLeft = new Left("ornament", OrnamentLeftLeft, (OrnamentLeftHeigth + OrnamentLeftTop));
+                    ornamentLeft.Add(ref MyInkCanvas);
+                    break;
+
+                case "OrnamentTop":
+                    double OrnamentTopRight = InkCanvas.GetLeft(myArray[0]);
+                    double ornamentTopTop = InkCanvas.GetTop(myArray[0]);
+                    double OrnamentTopWidth = myArray[0].Width /2;
+                    Top ornamenTtop = new Top("ornament", (OrnamentTopWidth + OrnamentTopRight), ornamentTopTop);
+                    ornamenTtop.Add(ref MyInkCanvas);
+                    break;
+
+                case "OrnamentBottom":
+                    double OrnamentBottomRight = InkCanvas.GetLeft(myArray[0]);
+                    double ornamentBottomTop = InkCanvas.GetTop(myArray[0]);
+                    double OrnamentBottomWidth = myArray[0].Width / 2;
+                    double OrnamentBottomHeight = myArray[0].Height;
+                    Bottom OrnamentBottom = new Bottom("ornament", (ornamentBottomTop + OrnamentBottomWidth), (ornamentBottomTop + OrnamentBottomHeight));
+                    OrnamentBottom.Add(ref MyInkCanvas);
                     break;
             }
-
-            Left ornament = new Left();
-
         }
 
         private void InkCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

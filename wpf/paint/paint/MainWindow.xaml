@@ -21,7 +21,8 @@
                 </Button>
             </ToolBar>
 
-            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="174" Margin="-0.333,0,-88.333,-0.333">
+
+            <ToolBar Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="174" Margin="-54,0,-34.667,-0.333">
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
                         <Image x:Name="Delete_Group" Source="Icons/delete_group.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown"></Image>
@@ -42,10 +43,21 @@
                         <Image x:Name="Eraser" Source="Icons/eraser.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFigure_MouseLeftButtonDown"/>
                     </Button.Content>
                 </Button>
-                <Button Height="30" VerticalAlignment="Top" Width="30" RenderTransformOrigin="0.894,-0.711">
+            </ToolBar>
+
+            <ToolBar Margin="203.667,0,-188.333,-0.333" Height="Auto" VerticalAlignment="Stretch">
+                <Button Height="30" VerticalAlignment="Top" Width="30" RenderTransformOrigin="0.894,-0.711" >
                     <Button.Content>
-                        <Image x:Name="Ornament" Source="Icons/add_ornament.png" Cursor="Hand" MouseLeftButtonDown="Button_AddToFigure_MouseLeftButtonDown"/>
+                        <Image x:Name="Ornament" Source="Icons/add_ornament.png" Cursor="Hand" />
                     </Button.Content>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="OrnamentRight" Header="Right" Click="Button_AddToFigure_MouseLeftButtonDown" />
+                            <MenuItem x:Name="OrnamentLeft" Header="Left" Click="Button_AddToFigure_MouseLeftButtonDown" />
+                            <MenuItem x:Name="OrnamentTop" Header="Top" Click="Button_AddToFigure_MouseLeftButtonDown" />
+                            <MenuItem x:Name="OrnamentBottom" Header="Bottom" Click="Button_AddToFigure_MouseLeftButtonDown" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
                 </Button>
             </ToolBar>
 

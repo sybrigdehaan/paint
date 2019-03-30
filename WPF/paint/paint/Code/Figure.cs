@@ -10,9 +10,12 @@ namespace paint
     public abstract class _Shape : IFigures
     {
         protected Shape myShape;
+        protected List<Ornament> myOrnament;
         protected double left, top, width, height;
 
         public FrameworkElement GetShape(){ return myShape;  }
+
+        public Ornament _Ornament { set { myOrnament.Add(value); } }
 
         public void Draw(ref InkCanvas MyInkCanvas)
         {
