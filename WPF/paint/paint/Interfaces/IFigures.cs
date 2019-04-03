@@ -12,7 +12,7 @@ namespace paint
     public interface IFigures
     {
         void ShowFigureDetails();
-        void Get_Shape(FrameworkElement shape, ref List<IFigures> _ShapesList);
+        void Get_Shape(ref List<IFigures> _ShapesList);
         FrameworkElement GetShape();
     }
 }

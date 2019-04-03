@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace paint
 {
-    public class Group : IFigures
+    public class _Group : IFigures
     {
         public InkCanvas groupInkCanvas = new InkCanvas();
         private List<IFigures> subFigures = new List<IFigures>();
@@ -16,27 +16,14 @@ namespace paint
 
         public List<IFigures> SubFigures { get { return subFigures; } }
 
-        public void Add(IFigures group)
+        public void Add(IFigures figure)
         {
-            subFigures.Add(group);
+            subFigures.Add(figure);
         }
 
-        public void Remove(IFigures group)
+        public void Remove(IFigures figure)
         {
-            subFigures.Remove(group);
-        }
-        
-        //Is used for ungroup
-        public void Find(FrameworkElement element, ref Group selectedFrameworkGroup)
-        {
-            foreach (IFigures fig in subFigures)
-            {
-                if (typeof(Group) == fig.GetType())
-                {
-                    if ((fig as Group).groupInkCanvas == element)
-                        selectedFrameworkGroup = ((fig as Group));
-                }
-            }
+            subFigures.Remove(figure);
         }
 
         public void ShowFigureDetails()
@@ -47,14 +34,13 @@ namespace paint
                 fig.ShowFigureDetails();
             }
         }
-
-        //Is used for group
-        public void Get_Shape(FrameworkElement shape, ref List<IFigures> _ShapesList)
+        
+        public void Get_Shape(ref List<IFigures> _ShapesList)
         {
-            if (groupInkCanvas == shape) _ShapesList.Add(this);
+            _ShapesList.Add(this); 
             foreach (IFigures fig in subFigures)
             {
-                fig.Get_Shape(shape, ref _ShapesList); 
+                fig.Get_Shape(ref _ShapesList); 
             }
         }
     }
