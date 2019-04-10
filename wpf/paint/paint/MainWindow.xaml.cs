@@ -17,6 +17,8 @@ namespace paint
         private Items currentItem;
         bool drawn = false;
        
+
+        public static InkCanvas custumInkcanvas = new InkCanvas(); 
         SimpleRemoteControl remote = new SimpleRemoteControl();
         List<SimpleRemoteControl> reverseRemoteControls = new List<SimpleRemoteControl>();
         List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>(); 
