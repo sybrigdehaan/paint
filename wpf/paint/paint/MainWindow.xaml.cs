@@ -16,9 +16,11 @@ namespace paint
 
         private Items currentItem;
         bool drawn = false;
-       
 
-        public static InkCanvas custumInkcanvas = new InkCanvas(); 
+
+        InkCanvas MyInkCanvas = Singleton.GetInstance();
+       
+        
         SimpleRemoteControl remote = new SimpleRemoteControl();
         List<SimpleRemoteControl> reverseRemoteControls = new List<SimpleRemoteControl>();
         List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>(); 
@@ -29,6 +31,8 @@ namespace paint
         public MainWindow()
         {
             InitializeComponent();
+            myGrid.Children.Add(MyInkCanvas); 
+            MyInkCanvas.EditingMode = InkCanvasEditingMode.None;
             mySolidColorBrushRed.Color = Color.FromArgb(255, 255, 0, 0);
         }
 
@@ -57,12 +61,12 @@ namespace paint
                 case "Save":
                     break;
                 case "Redo":
-                    remote = remoteControls[remoteControls.Count-1];
+                    remote = remoteControls[remoteControls.Count - 1];
                     remote.buttonWasPressed();
+                    remoteControls.Remove(remote);
                     break;
                 case "Undo":
-                    int count = reverseRemoteControls.Count;
-                    remote = reverseRemoteControls[count - 1];
+                    remote = reverseRemoteControls[reverseRemoteControls.Count - 1];
                     remote.buttonWasPressed();
                     reverseRemoteControls.Remove(remote);
                     break;
@@ -78,10 +82,10 @@ namespace paint
             switch (((FrameworkElement)sender).Name)
             {
                 case "Delete_Group":
-                    ChangeGroup.Un_Group(myArray, ref myMainGroup, ref MyInkCanvas);
+                    ChangeGroup.Un_Group(myArray, ref myMainGroup);
                     break;
                 case "Add_Group":
-                    ChangeGroup.AddTo_Group(myArray, ref myMainGroup, ref MyInkCanvas);
+                    ChangeGroup.AddTo_Group(myArray, ref myMainGroup);
                     break;
                 case "Select":
                     MyInkCanvas.EditingMode = InkCanvasEditingMode.Select;

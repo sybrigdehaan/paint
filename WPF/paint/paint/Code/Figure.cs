@@ -42,17 +42,12 @@ namespace paint
 
         public void Make()
         {
-           
+            Singleton.GetInstance().Children.Add(myShape);
         }
 
         public void Destroy()
         {
-            myShape.Fill = null;
-            myShape.Width = 0;
-            myShape.Height = 0;
-            InkCanvas.SetLeft(myShape, 0);
-            InkCanvas.SetTop(myShape, 0);
-            myShape = null;
+            Singleton.GetInstance().Children.Remove(myShape); 
         }
 
         public override void ShowFigureDetails()

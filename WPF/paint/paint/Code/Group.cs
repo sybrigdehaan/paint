@@ -9,7 +9,7 @@ namespace paint
 {
     public class _Group : IFigures
     {
-        public InkCanvas groupInkCanvas = new InkCanvas();
+        public Canvas groupInkCanvas = new Canvas();
 
         public FrameworkElement GetShape () {return groupInkCanvas; }
 

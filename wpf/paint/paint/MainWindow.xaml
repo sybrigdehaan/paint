@@ -83,11 +83,12 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <Grid x:Name="myGrid">
-            
-        </Grid>
-        <InkCanvas x:Name="MyInkCanvas" HorizontalAlignment="Left" Height="457" Margin="0,35,-0.5,0" VerticalAlignment="Top" Width="788" 
+        <Grid x:Name="myGrid" HorizontalAlignment="Left" Height="457" Margin="0,35,-0.5,0" VerticalAlignment="Top" Width="788" 
                    PreviewMouseLeftButtonDown="InkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="InkCanvas_MouseLeftButtonUp" 
-                   MouseMove="InkCanvas_MouseMove" EditingMode="None"/>
+                   MouseMove="InkCanvas_MouseMove">
+        </Grid>
+        <!--<InkCanvas x:Name="MyInkCanvas" HorizontalAlignment="Left" Height="457" Margin="0,35,-0.5,0" VerticalAlignment="Top" Width="788" 
+                   PreviewMouseLeftButtonDown="InkCanvas_MouseLeftButtonDown" MouseLeftButtonUp="InkCanvas_MouseLeftButtonUp" 
+                   MouseMove="InkCanvas_MouseMove" EditingMode="None"/>-->
     </Grid>
 </Window>
