@@ -16,7 +16,7 @@ namespace paint
         bool drawn = false; 
         
         _Ellipse myEllipse;
-        _Rectangle myRectangle; 
+        Rectangle rectangle; 
  
 
         public MainWindow()
@@ -79,8 +79,8 @@ namespace paint
             switch (currentItem)
             {
                 case Items.Rectangle:
-                    myRectangle = new _Rectangle();
-                    myRectangle.Draw(ref MyInkCanvas); 
+                    rectangle = new Rectangle();
+                    rectangle.Draw(ref MyInkCanvas); 
                     break;
                 case Items.Ellipse:
                     myEllipse = new _Ellipse();
@@ -104,7 +104,7 @@ namespace paint
                 switch (currentItem)
                 {
                     case Items.Rectangle:
-                        myRectangle.ChangeFigure(); 
+                        rectangle.ChangeFigure(); 
                         break;
                     case Items.Ellipse:
                         myEllipse.ChangeFigure();

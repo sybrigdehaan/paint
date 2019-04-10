@@ -34,19 +34,32 @@ namespace paint
         }
     }
 
-
-    public class _Rectangle : _Shape, IFigures
+    public static class MyExtensionRect
     {
-        public _Rectangle()
+        public static void Draw(this Rectangle rectangle, ref InkCanvas MyInkCanvas)
         {
-            myShape = new Rectangle();
+            MyInkCanvas.Children.Add(rectangle);
         }
 
-        public void ShowFigureDetails()
+        public static void ShowFigureDetails(this Rectangle rectangle)
         {
-            Console.WriteLine("This is a: Rectangle, With the measurement: " + "left: " + InkCanvas.GetLeft(myShape) + ", Top: " + InkCanvas.GetTop(myShape) + ", Width: " + myShape.Width + ", Height: " + myShape.Height);
+            Console.WriteLine("This is a: Rectangle, With the measurement: " + "left: " + InkCanvas.GetLeft(rectangle) + ", Top: " + InkCanvas.GetTop(rectangle) + ", Width: " + rectangle.Width + ", Height: " + rectangle.Height);
         }
 
+        public static void ChangeFigure(this Rectangle rectangle)
+        {
+            rectangle.Fill = MainWindow.mySolidColorBrushRed;
+            rectangle.Width = Math.Abs(MainWindow.x2 - MainWindow.x1);
+            rectangle.Height = Math.Abs(MainWindow.y2 - MainWindow.y1);
+            if (MainWindow.x1 < MainWindow.x2)
+                InkCanvas.SetLeft(rectangle, MainWindow.x1);
+            else if (MainWindow.x2 < MainWindow.x1)
+                InkCanvas.SetLeft(rectangle, MainWindow.x2);
+            if (MainWindow.y1 < MainWindow.y2)
+                InkCanvas.SetTop(rectangle, MainWindow.y1);
+            else if (MainWindow.y2 < MainWindow.y1)
+                InkCanvas.SetTop(rectangle, MainWindow.y2);
+        }
     }
 
     public class _Ellipse : _Shape, IFigures
