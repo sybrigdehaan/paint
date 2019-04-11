@@ -15,4 +15,10 @@ namespace paint
         void Get_Shape(ref List<IFigures> _ShapesList);
         FrameworkElement GetShape();
     }
+
+    public interface IGetElement
+    {
+        void ShowFigureDetails();
+    }
+
 }
