@@ -34,19 +34,19 @@ namespace paint
         }
     }
 
-    public static class MyExtensionRect
+    public class MykExtensionRect : IFigures
     {
-        public static void Draw(this Rectangle rectangle, ref InkCanvas MyInkCanvas)
+        public static void Draw(Rectangle rectangle, ref InkCanvas MyInkCanvas)
         {
             MyInkCanvas.Children.Add(rectangle);
         }
 
-        public static void ShowFigureDetails(this Rectangle rectangle)
+        public static void ShowFigureDetails(Shape rectangle)
         {
             Console.WriteLine("This is a: Rectangle, With the measurement: " + "left: " + InkCanvas.GetLeft(rectangle) + ", Top: " + InkCanvas.GetTop(rectangle) + ", Width: " + rectangle.Width + ", Height: " + rectangle.Height);
         }
 
-        public static void ChangeFigure(this Rectangle rectangle)
+        public static void ChangeFigure(Rectangle rectangle)
         {
             rectangle.Fill = MainWindow.mySolidColorBrushRed;
             rectangle.Width = Math.Abs(MainWindow.x2 - MainWindow.x1);
