@@ -17,10 +17,8 @@ namespace paint
         private Items currentItem;
         bool drawn = false;
 
-
         InkCanvas MyInkCanvas = Singleton.GetInstance();
        
-        
         SimpleRemoteControl remote = new SimpleRemoteControl();
         List<SimpleRemoteControl> reverseRemoteControls = new List<SimpleRemoteControl>();
         List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>(); 
@@ -113,7 +111,7 @@ namespace paint
             // haalt alle geslecteerde items op en zet het in array Shape
             FrameworkElement[] myArray = new FrameworkElement[MyInkCanvas.GetSelectedElements().Count];
             MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
-
+                     
             // haalt naam op van de het aangeklikte element
             switch (((FrameworkElement)sender).Name)
             {
