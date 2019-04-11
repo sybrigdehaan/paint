@@ -18,6 +18,8 @@ namespace paint
             
             groupInkCanvas.Background = Brushes.Transparent;
             groupInkCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
+            
+            
 
             double nearestTop = InkCanvas.GetTop(myArray[0]), nearestLeft = InkCanvas.GetLeft(myArray[0]);
             double farthestRight = 0, farthestBottom = 0;
