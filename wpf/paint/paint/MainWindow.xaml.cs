@@ -171,12 +171,9 @@ namespace paint
             {
                 case Items.Rectangle:
                     myRectangle = new _Rectangle();
-
-
                     remote = new SimpleRemoteControl();
                     remote.SetCommand = new _RectagleDestroy(myRectangle);
                     reverseRemoteControls.Add(remote);
-
                     MyInkCanvas.Children.Add(myRectangle.GetShape());
                     break;
                 case Items.Ellipse:
