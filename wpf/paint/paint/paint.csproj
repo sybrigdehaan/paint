@@ -67,7 +67,9 @@
     <Compile Include="Code\Figure.cs" />
     <Compile Include="Code\Group.cs" />
     <Compile Include="Code\Ornament.cs" />
-    <Compile Include="Code\MyMainGroup_Singleton.cs" />
+    <Compile Include="Code\SimpleRemoteControl.cs" />
+    <Compile Include="Code\Singleton.cs" />
+    <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IFigures.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -116,6 +118,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\add_ornament.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\redo.png" />
+    <Resource Include="Icons\undo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,54 +7,39 @@ using System.Windows;
 
 namespace paint
 {
-    public class Group : IFigures
+    public class _Group : IFigures
     {
-        public InkCanvas groupInkCanvas = new InkCanvas();
-        private List<IFigures> subFigures = new List<IFigures>();
+        public Canvas groupInkCanvas = new Canvas();
 
-        public FrameworkElement GetShape () {return groupInkCanvas; } 
+        public FrameworkElement GetShape () {return groupInkCanvas; }
 
-        public List<IFigures> SubFigures { get { return subFigures; } }
+        public List<IFigures> SubFigures { get; } = new List<IFigures>();
 
-        public void Add(IFigures group)
+        public void Add(IFigures figure)
         {
-            subFigures.Add(group);
+            SubFigures.Add(figure);
         }
 
-        public void Remove(IFigures group)
+        public void Remove(IFigures figure)
         {
-            subFigures.Remove(group);
-        }
-        
-        //Is used for ungroup
-        public void Find(FrameworkElement element, ref Group selectedFrameworkGroup)
-        {
-            foreach (IFigures fig in subFigures)
-            {
-                if (typeof(Group) == fig.GetType())
-                {
-                    if ((fig as Group).groupInkCanvas == element)
-                        selectedFrameworkGroup = ((fig as Group));
-                }
-            }
+            SubFigures.Remove(figure);
         }
 
         public void ShowFigureDetails()
         {
             Console.WriteLine("Group");
-            foreach (IFigures fig in subFigures)
+            foreach (IFigures fig in SubFigures)
             {
                 fig.ShowFigureDetails();
             }
         }
-
-        //Is used for group
-        public void Get_Shape(FrameworkElement shape, ref List<IFigures> _ShapesList)
+        
+        public void Get_Shape(ref List<IFigures> _ShapesList)
         {
-            if (groupInkCanvas == shape) _ShapesList.Add(this);
-            foreach (IFigures fig in subFigures)
+            _ShapesList.Add(this); 
+            foreach (IFigures fig in SubFigures)
             {
-                fig.Get_Shape(shape, ref _ShapesList); 
+                fig.Get_Shape(ref _ShapesList); 
             }
         }
     }
