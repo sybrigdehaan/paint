@@ -17,10 +17,7 @@ namespace paint
         private Items currentItem;
         bool drawn = false;
 
-
         InkCanvas MyInkCanvas = Singleton.GetInstance();
-       
-        
         SimpleRemoteControl remote = new SimpleRemoteControl();
         List<SimpleRemoteControl> reverseRemoteControls = new List<SimpleRemoteControl>();
         List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>(); 
