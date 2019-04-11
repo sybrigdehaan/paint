@@ -18,10 +18,10 @@ namespace paint
         bool drawn = false;
 
         InkCanvas MyInkCanvas = Singleton.GetInstance();
-       
+
         SimpleRemoteControl remote = new SimpleRemoteControl();
         List<SimpleRemoteControl> reverseRemoteControls = new List<SimpleRemoteControl>();
-        List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>(); 
+        List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>();
         _Group myMainGroup = new _Group();
         _Ellipse myEllipse;
         _Rectangle myRectangle;
@@ -29,7 +29,7 @@ namespace paint
         public MainWindow()
         {
             InitializeComponent();
-            myGrid.Children.Add(MyInkCanvas); 
+            myGrid.Children.Add(MyInkCanvas);
             MyInkCanvas.EditingMode = InkCanvasEditingMode.None;
             mySolidColorBrushRed.Color = Color.FromArgb(255, 255, 0, 0);
         }
@@ -97,7 +97,7 @@ namespace paint
                         foreach (IFigures figure in _ShapesList)
                         {
                             if (figure.GetShape() == myArray[i])
-                                selectedFigure = figure; 
+                                selectedFigure = figure;
                         }
                         MyInkCanvas.Children.Remove(myArray[i]);
                         myMainGroup.Remove(selectedFigure);
@@ -111,7 +111,17 @@ namespace paint
             // haalt alle geslecteerde items op en zet het in array Shape
             FrameworkElement[] myArray = new FrameworkElement[MyInkCanvas.GetSelectedElements().Count];
             MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
-                     
+
+            List<IFigures> _ShapesList = new List<IFigures>();
+            myMainGroup.Get_Shape(ref _ShapesList);
+
+            IFigures selectedFigure = null;
+            foreach (IFigures figure in _ShapesList)
+            {
+                if (figure.GetShape() == myArray[0])
+                    selectedFigure = figure;
+            }
+
             // haalt naam op van de het aangeklikte element
             switch (((FrameworkElement)sender).Name)
             {
@@ -121,7 +131,7 @@ namespace paint
                     double OrnamentRightHeigth = myArray[0].Height / 2;
                     double OrnamentRightWidht = myArray[0].Width;
                     Right ornamentRight = new Right("ornament", (ornamentRightLeft + OrnamentRightWidht), (OrnamentRightHeigth + ornamentRightTop));
-                    ornamentRight.Add(ref MyInkCanvas);
+                    ornamentRight.Add(ref MyInkCanvas, selectedFigure);
                     break;
 
                 case "OrnamentLeft":
@@ -129,15 +139,15 @@ namespace paint
                     double OrnamentLeftTop = InkCanvas.GetTop(myArray[0]);
                     double OrnamentLeftHeigth = myArray[0].Height / 2;
                     Left ornamentLeft = new Left("ornament", OrnamentLeftLeft, (OrnamentLeftHeigth + OrnamentLeftTop));
-                    ornamentLeft.Add(ref MyInkCanvas);
+                    ornamentLeft.Add(ref MyInkCanvas, selectedFigure);
                     break;
 
                 case "OrnamentTop":
                     double OrnamentTopRight = InkCanvas.GetLeft(myArray[0]);
                     double ornamentTopTop = InkCanvas.GetTop(myArray[0]);
-                    double OrnamentTopWidth = myArray[0].Width /2;
+                    double OrnamentTopWidth = myArray[0].Width / 2;
                     Top ornamenTtop = new Top("ornament", (OrnamentTopWidth + OrnamentTopRight), ornamentTopTop);
-                    ornamenTtop.Add(ref MyInkCanvas);
+                    ornamenTtop.Add(ref MyInkCanvas, selectedFigure);
                     break;
 
                 case "OrnamentBottom":
@@ -146,11 +156,11 @@ namespace paint
                     double OrnamentBottomWidth = myArray[0].Width / 2;
                     double OrnamentBottomHeight = myArray[0].Height;
                     Bottom OrnamentBottom = new Bottom("ornament", (ornamentBottomTop + OrnamentBottomWidth), (ornamentBottomTop + OrnamentBottomHeight));
-                    OrnamentBottom.Add(ref MyInkCanvas);
+                    OrnamentBottom.Add(ref MyInkCanvas, selectedFigure);
                     break;
             }
         }
-        
+
         private void InkCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             drawn = true;
@@ -161,13 +171,13 @@ namespace paint
             {
                 case Items.Rectangle:
                     myRectangle = new _Rectangle();
-                   
+
 
                     remote = new SimpleRemoteControl();
                     remote.SetCommand = new _RectagleDestroy(myRectangle);
                     reverseRemoteControls.Add(remote);
 
-                    MyInkCanvas.Children.Add(myRectangle.GetShape()); 
+                    MyInkCanvas.Children.Add(myRectangle.GetShape());
                     break;
                 case Items.Ellipse:
                     myEllipse = new _Ellipse();
@@ -175,7 +185,7 @@ namespace paint
                     remote.buttonWasPressed();
                     remoteControls.Add(remote);
                     MyInkCanvas.Children.Add(myEllipse.GetShape());
-                    break;  
+                    break;
             }
         }
 

@@ -9,15 +9,18 @@ using System.Windows.Media;
 namespace paint
 {
     // creates ornament
-    public abstract class Ornament 
+    public abstract class Ornament
     {
         Color color = Color.FromArgb(0, 0, 0, 0);
         protected TextBlock textBlock = new TextBlock();
 
-        public void Add(ref InkCanvas MyInkCanvas, _Shape shape)
+        public void Add(ref InkCanvas MyInkCanvas, IFigures shape)
         {
             MyInkCanvas.Children.Add(textBlock);
-           // shape._Ornament = this;
+            if (typeof(_Shape) == shape.GetType())
+            {
+                (shape as _Shape)._Ornament = this;
+            }
         }
     }
 
