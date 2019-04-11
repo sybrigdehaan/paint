@@ -73,30 +73,7 @@ namespace paint
             }
         }
 
-        private void Button_AddToFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            UIElement[] myArray = new UIElement[MyInkCanvas.GetSelectedElements().Count];
-            MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
-
-            switch (currentItem)
-            {
-                case Items.Select:
-
-                    //for (int i = 0; i < myArray.Length; i++)
-                    //{
-
-                    //}
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            var color = Color.FromArgb(0, 0, 0, 0);
-            TextBlock textBlock = new TextBlock();
-            textBlock.Text = "ornament";
-            InkCanvas.SetLeft(textBlock, 100);
-            InkCanvas.SetTop(textBlock, 100);
-            
-        }
-
+      
         private void Button_AddToFigure_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
             // haalt alle geslecteerde items op en zet het in array Shape
