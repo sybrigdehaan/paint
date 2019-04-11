@@ -36,29 +36,35 @@ namespace paint
 
     public class MykExtensionRect : IFigures
     {
-        public static void Draw(Rectangle rectangle, ref InkCanvas MyInkCanvas)
-        {
-            MyInkCanvas.Children.Add(rectangle);
-        }
+        private Rectangle rectangle;
 
-        public static void ShowFigureDetails(Shape rectangle)
-        {
-            Console.WriteLine("This is a: Rectangle, With the measurement: " + "left: " + InkCanvas.GetLeft(rectangle) + ", Top: " + InkCanvas.GetTop(rectangle) + ", Width: " + rectangle.Width + ", Height: " + rectangle.Height);
-        }
+        //public static void Draw(this Rectangle rectangle, ref InkCanvas MyInkCanvas)
+        //{
+        //    MyInkCanvas.Children.Add(rectangle);
+        //}
 
-        public static void ChangeFigure(Rectangle rectangle)
+        //public static void ShowFigureDetails(this Shape rectangle)
+        //{
+        //    Console.WriteLine("This is a: Rectangle, With the measurement: " + "left: " + InkCanvas.GetLeft(rectangle) + ", Top: " + InkCanvas.GetTop(rectangle) + ", Width: " + rectangle.Width + ", Height: " + rectangle.Height);
+        //}
+
+        //public static void ChangeFigure(this Rectangle rectangle)
+        //{
+        //    rectangle.Fill = MainWindow.mySolidColorBrushRed;
+        //    rectangle.Width = Math.Abs(MainWindow.x2 - MainWindow.x1);
+        //    rectangle.Height = Math.Abs(MainWindow.y2 - MainWindow.y1);
+        //    if (MainWindow.x1 < MainWindow.x2)
+        //        InkCanvas.SetLeft(rectangle, MainWindow.x1);
+        //    else if (MainWindow.x2 < MainWindow.x1)
+        //        InkCanvas.SetLeft(rectangle, MainWindow.x2);
+        //    if (MainWindow.y1 < MainWindow.y2)
+        //        InkCanvas.SetTop(rectangle, MainWindow.y1);
+        //    else if (MainWindow.y2 < MainWindow.y1)
+        //        InkCanvas.SetTop(rectangle, MainWindow.y2);
+        //}
+        public void ShowFigureDetails(Shape rectangle)
         {
-            rectangle.Fill = MainWindow.mySolidColorBrushRed;
-            rectangle.Width = Math.Abs(MainWindow.x2 - MainWindow.x1);
-            rectangle.Height = Math.Abs(MainWindow.y2 - MainWindow.y1);
-            if (MainWindow.x1 < MainWindow.x2)
-                InkCanvas.SetLeft(rectangle, MainWindow.x1);
-            else if (MainWindow.x2 < MainWindow.x1)
-                InkCanvas.SetLeft(rectangle, MainWindow.x2);
-            if (MainWindow.y1 < MainWindow.y2)
-                InkCanvas.SetTop(rectangle, MainWindow.y1);
-            else if (MainWindow.y2 < MainWindow.y1)
-                InkCanvas.SetTop(rectangle, MainWindow.y2);
+            throw new NotImplementedException();
         }
     }
 

@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace paint
 {
-    public class Group : InkCanvas
+    public class Group : InkCanvas, IFigures; 
     {
         private string name;
         private List<IFigures> subFigures = new List<IFigures>();
