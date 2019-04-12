@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace paint
 {
-    public interface ICustomObjectVisitor
+    class CustumObjectVisitor : ICustomObjectVisitor
     {
         
     }

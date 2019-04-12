@@ -18,7 +18,7 @@ namespace paint
         bool drawn = false;
 
         InkCanvas MyInkCanvas = Singleton.GetInstance();
-
+        ICustomObjectVisitor visitor = new CustumObjectVisitor(); 
         SimpleRemoteControl remote = new SimpleRemoteControl();
         List<SimpleRemoteControl> reverseRemoteControls = new List<SimpleRemoteControl>();
         List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>();
@@ -171,19 +171,16 @@ namespace paint
             {
                 case Items.Rectangle:
                     myRectangle = new _Rectangle();
-
-
                     remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _RectagleDestroy(myRectangle);
+                    remote.SetCommand = new _ShapeDestroy(myRectangle, visitor);
                     reverseRemoteControls.Add(remote);
-
                     MyInkCanvas.Children.Add(myRectangle.GetShape());
                     break;
                 case Items.Ellipse:
                     myEllipse = new _Ellipse();
-                    remote.SetCommand = new _EllipseMake(myEllipse);
-                    remote.buttonWasPressed();
-                    remoteControls.Add(remote);
+                    remote = new SimpleRemoteControl();
+                    remote.SetCommand = new _ShapeDestroy(myEllipse, visitor);
+                    reverseRemoteControls.Add(remote);
                     MyInkCanvas.Children.Add(myEllipse.GetShape());
                     break;
             }
@@ -197,11 +194,14 @@ namespace paint
                 case Items.Rectangle:
                     myMainGroup.Add(myRectangle);
                     remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _RectangleMake(myRectangle);
+                    remote.SetCommand = new _ShapeMake(myRectangle, visitor);
                     remoteControls.Add(remote);
                     break;
                 case Items.Ellipse:
                     myMainGroup.Add(myEllipse);
+                    remote = new SimpleRemoteControl();
+                    remote.SetCommand = new _ShapeMake(myEllipse, visitor);
+                    remoteControls.Add(remote);
                     break;
             }
         }

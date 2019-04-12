@@ -42,5 +42,7 @@ namespace paint
                 fig.Get_Shape(ref _ShapesList); 
             }
         }
+
+
     }
 }
