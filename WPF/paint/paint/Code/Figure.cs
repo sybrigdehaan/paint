@@ -31,6 +31,16 @@ namespace paint
         {
             _ShapesList.Add(this);
         }
+
+        public void Make(ICustomObjectVisitor customObject)
+        {
+            customObject.VisitMake(this); 
+        }
+
+        public void Destroy(ICustomObjectVisitor customObject)
+        {
+            customObject.VisitDestroy(this);
+        }
     }
 
     public class _Rectangle : _Shape
@@ -40,96 +50,54 @@ namespace paint
             myShape = new Rectangle();
         }
 
-        public void Make()
-        {
-            Singleton.GetInstance().Children.Add(myShape);
-        }
-
-        public void Destroy()
-        {
-            Singleton.GetInstance().Children.Remove(myShape); 
-        }
-
         public override void ShowFigureDetails()
         {
             Console.WriteLine("This is a: Ellipse, With the measurement: " + "left: " + InkCanvas.GetLeft(myShape) + ", Top: " + InkCanvas.GetTop(myShape) + ", Width: " + myShape.Width + ", Height: " + myShape.Height);
         }
     }
 
-    public class _RectangleMake : ICommand
-    {
-        private _Rectangle _myShape; 
-        public _RectangleMake(_Rectangle _myShape)
-        {
-            this._myShape = _myShape; 
-        }
-
-        public void Execute()
-        {
-            _myShape.Make(); 
-        }
-    }
-
-    public class _RectagleDestroy : ICommand
-    {
-        private _Rectangle _myShape;
-        public _RectagleDestroy(_Rectangle _myShape)
-        {
-            this._myShape = _myShape;
-        }
-
-        public void Execute()
-        {
-            _myShape.Destroy();
-        }
-    }
-
-
     public class _Ellipse : _Shape
     {
-        public void Make()
+        public _Ellipse()
         {
             myShape = new Ellipse();
         }
 
-        public void Destroy()
-        {
-            myShape = null;
-        }
-
         public override void ShowFigureDetails()
         {
             Console.WriteLine("This is a: Ellipse, With the measurement: " + "left: " + InkCanvas.GetLeft(myShape) + ", Top: " + InkCanvas.GetTop(myShape) + ", Width: " + myShape.Width + ", Height: " + myShape.Height);
         }
     }
 
-    public class _EllipseMake : ICommand
+    public class _ShapeMake : ICommand
     {
-        private _Ellipse _myShape;
-        public _EllipseMake(_Ellipse _myShape)
+        private _Shape _myShape;
+        private ICustomObjectVisitor customObject;
+        public _ShapeMake(_Shape _myShape, ICustomObjectVisitor customObject)
         {
             this._myShape = _myShape;
+            this.customObject = customObject;
         }
 
         public void Execute()
         {
-            _myShape.Make();
+            _myShape.Make(customObject);
         }
     }
 
-    public class _EllipseDestroy : ICommand
+    public class _ShapeDestroy : ICommand
     {
-        private _Ellipse _myShape;
-        public _EllipseDestroy(_Ellipse _myShape)
+        private _Shape _myShape;
+        private ICustomObjectVisitor customObject;
+        public _ShapeDestroy(_Shape _myShape, ICustomObjectVisitor customObject)
         {
             this._myShape = _myShape;
+            this.customObject = customObject;
         }
 
         public void Execute()
         {
-            _myShape.Destroy();
+            _myShape.Destroy(customObject);
         }
     }
-
-    
 }

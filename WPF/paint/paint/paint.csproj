@@ -64,6 +64,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\ChangeGroup.cs" />
+    <Compile Include="Code\ChangeOrnament.cs" />
+    <Compile Include="Code\CustumObjectVisitor.cs" />
     <Compile Include="Code\Figure.cs" />
     <Compile Include="Code\Group.cs" />
     <Compile Include="Code\Ornament.cs" />
