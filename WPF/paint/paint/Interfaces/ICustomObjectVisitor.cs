@@ -9,7 +9,6 @@ namespace paint
 {
     public interface ICustomObjectVisitor
     {
-        void VisitMake(IFigures figure);
-        void VisitDestroy(IFigures figure); 
+        
     }
 }

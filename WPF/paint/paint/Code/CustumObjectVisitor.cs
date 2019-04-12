@@ -9,14 +9,6 @@ namespace paint
 {
     class CustumObjectVisitor : ICustomObjectVisitor
     {
-        public void VisitMake(IFigures figure)
-        {
-            Singleton.GetInstance().Children.Add(figure.GetShape());
-        }
-
-        public void VisitDestroy(IFigures figure)
-        {
-            Singleton.GetInstance().Children.Remove(figure.GetShape());
-        }
+        
     }
 }
