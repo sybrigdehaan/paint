@@ -15,6 +15,16 @@ namespace paint
 
         public List<IFigures> SubFigures { get; } = new List<IFigures>();
 
+        public void Make(ICustomObjectVisitor customObject)
+        {
+            customObject.VisitMake(this);
+        }
+
+        public void Destroy(ICustomObjectVisitor customObject)
+        {
+            customObject.VisitMake(this);
+        }
+
         public void Add(IFigures figure)
         {
             SubFigures.Add(figure);
@@ -42,5 +52,7 @@ namespace paint
                 fig.Get_Shape(ref _ShapesList); 
             }
         }
+
+
     }
 }
