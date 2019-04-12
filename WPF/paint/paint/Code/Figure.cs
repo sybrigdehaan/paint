@@ -32,13 +32,15 @@ namespace paint
             _ShapesList.Add(this);
         }
 
-        public void Make()
+        public void Make(_Group group)
         {
+            group.Add(this); 
             Singleton.GetInstance().Children.Add(myShape);
         }
 
-        public void Destroy()
+        public void Destroy(_Group group)
         {
+            group.Remove(this); 
             Singleton.GetInstance().Children.Remove(myShape);
         }
     }
@@ -69,35 +71,35 @@ namespace paint
         }
     }
 
-    public class _ShapeMake : ICommand
+    public class _MakeShape : ICommand
     {
-        private _Shape _myShape;
-        private ICustomObjectVisitor customObject;
-        public _ShapeMake(_Shape _myShape, ICustomObjectVisitor customObject)
+        private IFigures _myShape;
+        private _Group group; 
+        public _MakeShape(IFigures _myShape, _Group group)
         {
             this._myShape = _myShape;
-            this.customObject = customObject;
+            this.group = group; 
         }
 
         public void Execute()
         {
-            _myShape.Make();
+            _myShape.Make(group);
         }
     }
 
-    public class _ShapeDestroy : ICommand
+    public class _DestroyShape : ICommand
     {
-        private _Shape _myShape;
-        private ICustomObjectVisitor customObject;
-        public _ShapeDestroy(_Shape _myShape, ICustomObjectVisitor customObject)
+        private IFigures _myShape;
+        private _Group group;
+        public _DestroyShape(IFigures _myShape, _Group group)
         {
             this._myShape = _myShape;
-            this.customObject = customObject;
+            this.group = group;
         }
 
         public void Execute()
         {
-            _myShape.Destroy();
+            _myShape.Destroy(group);
         }
     }
 }

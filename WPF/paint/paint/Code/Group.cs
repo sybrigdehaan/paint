@@ -9,9 +9,9 @@ namespace paint
 {
     public class _Group : IFigures
     {
-        public Canvas groupInkCanvas = new Canvas();
+        public Canvas groupCanvas = new Canvas();
 
-        public FrameworkElement GetShape () {return groupInkCanvas; }
+        public FrameworkElement GetShape () {return groupCanvas; }
 
         public List<IFigures> SubFigures { get; } = new List<IFigures>();
 
@@ -43,6 +43,48 @@ namespace paint
             }
         }
 
+        public void Make(_Group group)
+        {
+            group.Add(this);
+            Singleton.GetInstance().Children.Add(groupCanvas);
+        }
 
+        public void Destroy(_Group group)
+        {
+            group.Remove(this);
+            Singleton.GetInstance().Children.Remove(groupCanvas);
+        }
+    }
+
+    public class _MakeGroup : ICommand
+    {
+        private _Group _myGroup;
+        private IFigures figure;
+        public _MakeGroup(_Group _myGroup, IFigures figure)
+        {
+            this._myGroup = _myGroup;
+            this.figure = figure;
+        }
+
+        public void Execute()
+        {
+            _myGroup.Add(figure);
+        }
+    }
+
+    public class _DestroyGroup : ICommand
+    {
+        private _Group _myGroup;
+        private IFigures figure;
+        public _DestroyGroup(_Group _myGroup, IFigures figure)
+        {
+            this._myGroup = _myGroup;
+            this.figure = figure;
+        }
+
+        public void Execute()
+        {
+            _myGroup.Remove(figure);
+        }
     }
 }

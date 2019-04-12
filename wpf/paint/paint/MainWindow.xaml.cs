@@ -18,10 +18,14 @@ namespace paint
         bool drawn = false;
 
         InkCanvas MyInkCanvas = Singleton.GetInstance();
+
         ICustomObjectVisitor visitor = new CustumObjectVisitor(); 
+
         SimpleRemoteControl remote = new SimpleRemoteControl();
-        List<SimpleRemoteControl> reverseRemoteControls = new List<SimpleRemoteControl>();
-        List<SimpleRemoteControl> remoteControls = new List<SimpleRemoteControl>();
+
+        Stack<SimpleRemoteControl> undoRemoteControls = new Stack<SimpleRemoteControl>();
+        Queue<SimpleRemoteControl> redoRemoteControls = new Queue<SimpleRemoteControl>();
+
         _Group myMainGroup = new _Group();
         _Ellipse myEllipse;
         _Rectangle myRectangle;
@@ -59,14 +63,23 @@ namespace paint
                 case "Save":
                     break;
                 case "Redo":
-                    remote = remoteControls[remoteControls.Count - 1];
-                    remote.buttonWasPressed();
-                    remoteControls.Remove(remote);
+                    if(redoRemoteControls.Count != 0)
+                    {
+                        remote = redoRemoteControls.Peek();
+                        redoRemoteControls.Dequeue();
+                        remote.buttonWasPressed();
+                    }
+                    else
+                        MessageBox.Show("Er zijn geen redo's meer!");
                     break;
                 case "Undo":
-                    remote = reverseRemoteControls[reverseRemoteControls.Count - 1];
-                    remote.buttonWasPressed();
-                    reverseRemoteControls.Remove(remote);
+                    if (undoRemoteControls.Count != 0)
+                    {
+                        remote = undoRemoteControls.Pop();
+                        remote.buttonWasPressed();
+                    }
+                    else
+                        MessageBox.Show("Er zijn geen undo's meer!");
                     break;
             }
         }
@@ -99,8 +112,13 @@ namespace paint
                             if (figure.GetShape() == myArray[i])
                                 selectedFigure = figure;
                         }
-                        MyInkCanvas.Children.Remove(myArray[i]);
-                        myMainGroup.Remove(selectedFigure);
+                        remote = new SimpleRemoteControl();
+                        remote.SetCommand = new _DestroyShape(selectedFigure, myMainGroup);
+                        remote.buttonWasPressed();
+
+                        remote = new SimpleRemoteControl();
+                        remote.SetCommand = new _MakeShape(selectedFigure, myMainGroup);
+                        undoRemoteControls.Push(remote);
                     }
                     break;
             }
@@ -172,16 +190,16 @@ namespace paint
                 case Items.Rectangle:
                     myRectangle = new _Rectangle();
                     remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _ShapeDestroy(myRectangle, visitor);
-                    reverseRemoteControls.Add(remote);
-                    MyInkCanvas.Children.Add(myRectangle.GetShape());
+                    remote.SetCommand = new _MakeShape(myRectangle, myMainGroup);
+                    remote.buttonWasPressed(); 
+                    redoRemoteControls.Enqueue(remote);
                     break;
                 case Items.Ellipse:
                     myEllipse = new _Ellipse();
                     remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _ShapeDestroy(myEllipse, visitor);
-                    reverseRemoteControls.Add(remote);
-                    MyInkCanvas.Children.Add(myEllipse.GetShape());
+                    remote.SetCommand = new _MakeShape(myEllipse, myMainGroup);
+                    remote.buttonWasPressed();
+                    redoRemoteControls.Enqueue(remote);
                     break;
             }
         }
@@ -192,16 +210,14 @@ namespace paint
             switch (currentItem)
             {
                 case Items.Rectangle:
-                    myMainGroup.Add(myRectangle);
                     remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _ShapeMake(myRectangle, visitor);
-                    remoteControls.Add(remote);
+                    remote.SetCommand = new _DestroyShape(myRectangle, myMainGroup);
+                    undoRemoteControls.Push(remote);
                     break;
                 case Items.Ellipse:
-                    myMainGroup.Add(myEllipse);
                     remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _ShapeMake(myEllipse, visitor);
-                    remoteControls.Add(remote);
+                    remote.SetCommand = new _DestroyShape(myEllipse, myMainGroup);
+                    undoRemoteControls.Push(remote);
                     break;
             }
         }

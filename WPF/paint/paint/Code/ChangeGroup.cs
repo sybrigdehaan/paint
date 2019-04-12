@@ -14,13 +14,11 @@ namespace paint
         public static void AddTo_Group(FrameworkElement[] myArray, ref _Group myMainGroup)
         {
             _Group myGroup = new _Group();
-            Canvas groupInkCanvas = myGroup.groupInkCanvas;
+            Canvas groupCanvas = myGroup.groupCanvas;
             
-            groupInkCanvas.Background = Brushes.Transparent;
-            groupInkCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
+            groupCanvas.Background = Brushes.Transparent;
+            groupCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
             
-            
-
             double nearestTop = InkCanvas.GetTop(myArray[0]), nearestLeft = InkCanvas.GetLeft(myArray[0]);
             double farthestRight = 0, farthestBottom = 0;
 
@@ -36,9 +34,6 @@ namespace paint
                 }
 
                 myMainGroup.Remove(selectedFigure);
-
-                Singleton.GetInstance().Children.Remove(myArray[i]);
-                groupInkCanvas.Children.Add(myArray[i]);
                 myGroup.Add(selectedFigure);
 
                 //Checking how the inkcanvas position must be. 
@@ -60,13 +55,12 @@ namespace paint
                 if (Canvas.GetTop(myShape) + myShape.Height > farthestBottom) { farthestBottom = Canvas.GetTop(myShape) + myShape.Height; }
             }
 
-            InkCanvas.SetTop(groupInkCanvas, nearestTop);
-            InkCanvas.SetLeft(groupInkCanvas, nearestLeft);
-            groupInkCanvas.Width = farthestRight;
-            groupInkCanvas.Height = farthestBottom;
+            InkCanvas.SetTop(groupCanvas, nearestTop);
+            InkCanvas.SetLeft(groupCanvas, nearestLeft);
+            groupCanvas.Width = farthestRight;
+            groupCanvas.Height = farthestBottom;
 
             myMainGroup.Add(myGroup);
-            Singleton.GetInstance().Children.Add(groupInkCanvas);
         }
 
         public static void Un_Group(FrameworkElement[] myArray, ref _Group myMainGroup)
@@ -80,16 +74,14 @@ namespace paint
                 {
                     if (typeof(_Group) == figure.GetType())
                     {
-                        if ((figure as _Group).groupInkCanvas == myArray[0])
+                        if ((figure as _Group).groupCanvas == myArray[0])
                             selectedFrameworkGroup = ((figure as _Group));
                     }
                 }
 
                 myMainGroup.Remove(selectedFrameworkGroup);
-                Singleton.GetInstance().Children.Remove(myArray[0]);
-                inGroupList = selectedFrameworkGroup.SubFigures;
 
-                foreach (IFigures figure in inGroupList)
+                foreach (IFigures figure in selectedFrameworkGroup.SubFigures)
                 {
                     (myArray[0] as Canvas).Children.Remove(figure.GetShape());
 
@@ -101,7 +93,6 @@ namespace paint
                     InkCanvas.SetLeft(element, elementLeft);
 
                     myMainGroup.Add(figure);
-                    Singleton.GetInstance().Children.Add(element);
                 }
             }
             else
