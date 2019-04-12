@@ -9,7 +9,7 @@ using System.Windows.Media;
 namespace paint
 {
     // creates ornament
-    public abstract class Ornament
+    public abstract class Ornament : _Shape 
     {
         Color color = Color.FromArgb(0, 0, 0, 0);
         protected TextBlock textBlock = new TextBlock();
@@ -32,7 +32,6 @@ namespace paint
             InkCanvas.SetLeft(textBlock, left);
             InkCanvas.SetTop(textBlock, top);
         }
-
     }
 
     public class Right : Ornament

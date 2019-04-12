@@ -87,6 +87,7 @@ namespace paint
                     break;
                 case "Select":
                     MyInkCanvas.EditingMode = InkCanvasEditingMode.Select;
+                    ChangeOrnament.GetPostion(myArray, MyInkCanvas);
                     break;
                 case "Eraser":
                     List<IFigures> _ShapesList = new List<IFigures>();
@@ -146,8 +147,8 @@ namespace paint
                     double OrnamentTopRight = InkCanvas.GetLeft(myArray[0]);
                     double ornamentTopTop = InkCanvas.GetTop(myArray[0]);
                     double OrnamentTopWidth = myArray[0].Width / 2;
-                    Top ornamenTtop = new Top("ornament", (OrnamentTopWidth + OrnamentTopRight), ornamentTopTop);
-                    ornamenTtop.Add(ref MyInkCanvas, selectedFigure);
+                    Top OrnamentTop = new Top("ornament", (OrnamentTopWidth + OrnamentTopRight), ornamentTopTop);
+                    OrnamentTop.Add(ref MyInkCanvas, selectedFigure);
                     break;
 
                 case "OrnamentBottom":
