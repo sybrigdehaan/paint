@@ -9,6 +9,7 @@ namespace paint
 {
     public abstract class _Shape : IFigures
     {
+
         protected Shape myShape;
         protected List<Ornament> myOrnament;
 
