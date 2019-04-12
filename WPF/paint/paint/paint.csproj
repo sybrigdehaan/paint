@@ -64,7 +64,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\ChangeGroup.cs" />
-    <Compile Include="Code\ChangeOrnament.cs" />
     <Compile Include="Code\Figure.cs" />
     <Compile Include="Code\Group.cs" />
     <Compile Include="Code\Ornament.cs" />
@@ -72,7 +71,6 @@
     <Compile Include="Code\Singleton.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IFigures.cs" />
-    <Compile Include="Interfaces\ICustomObjectVisitor.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
