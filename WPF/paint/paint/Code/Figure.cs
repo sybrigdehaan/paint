@@ -9,6 +9,7 @@ namespace paint
 {
     public abstract class _Shape : IFigures
     {
+
         protected Shape myShape;
         protected List<Ornament> myOrnament;
 
@@ -32,14 +33,14 @@ namespace paint
             _ShapesList.Add(this);
         }
 
-        public void Make(ICustomObjectVisitor customObject)
+        public void Make()
         {
-            customObject.VisitMake(this); 
+            Singleton.GetInstance().Children.Add(myShape);
         }
 
-        public void Destroy(ICustomObjectVisitor customObject)
+        public void Destroy()
         {
-            customObject.VisitDestroy(this);
+            Singleton.GetInstance().Children.Remove(myShape);
         }
     }
 
@@ -81,7 +82,7 @@ namespace paint
 
         public void Execute()
         {
-            _myShape.Make(customObject);
+            _myShape.Make();
         }
     }
 
@@ -97,7 +98,7 @@ namespace paint
 
         public void Execute()
         {
-            _myShape.Destroy(customObject);
+            _myShape.Destroy();
         }
     }
 }
