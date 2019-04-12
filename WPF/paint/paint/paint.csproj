@@ -71,7 +71,6 @@
     <Compile Include="Code\Ornament.cs" />
     <Compile Include="Code\SimpleRemoteControl.cs" />
     <Compile Include="Code\Singleton.cs" />
-    <Compile Include="Interfaces\IGetElement.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IFigures.cs" />
     <Compile Include="Interfaces\ICustomObjectVisitor.cs" />
