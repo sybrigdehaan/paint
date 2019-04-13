@@ -13,6 +13,9 @@ namespace paint
     {
         public static void AddTo_Group(FrameworkElement[] myArray, ref _Group myMainGroup)
         {
+            //SimpleRemoteControl remote = new SimpleRemoteControl();
+            //remote.SetCommand = new _DestroyGroup(myMainGroup, myMainGroup);
+
             _Group myGroup = new _Group();
             Canvas groupCanvas = myGroup.groupCanvas;
             
@@ -34,12 +37,13 @@ namespace paint
                 }
 
                 myMainGroup.Remove(selectedFigure);
+                Singleton.GetInstance().Children.Remove(selectedFigure.GetShape()); 
+                groupCanvas.Children.Add(selectedFigure.GetShape()); 
                 myGroup.Add(selectedFigure);
 
                 //Checking how the inkcanvas position must be. 
                 if (InkCanvas.GetLeft(myArray[i]) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(myArray[i]); }
                 if (InkCanvas.GetTop(myArray[i]) < nearestTop) { nearestTop = InkCanvas.GetTop(myArray[i]); }
-
             }
 
             foreach (FrameworkElement myShape in myArray)
@@ -61,6 +65,10 @@ namespace paint
             groupCanvas.Height = farthestBottom;
 
             myMainGroup.Add(myGroup);
+            Singleton.GetInstance().Children.Add(myGroup.GetShape()); 
+            //SimpleRemoteControl makeRemote = new SimpleRemoteControl();
+            //makeRemote.SetCommand = new _MakeGroup(myGroup, myMainGroup);
+            //makeRemote.buttonWasPressed(); 
         }
 
         public static void Un_Group(FrameworkElement[] myArray, ref _Group myMainGroup)

@@ -16,7 +16,7 @@ namespace paint
 
         public void buttonWasPressed()
         {
-            slot.Execute(); 
+            slot.Execute();
         }
     }
 }

@@ -47,6 +47,10 @@ namespace paint
         {
             group.Add(this);
             Singleton.GetInstance().Children.Add(groupCanvas);
+            Ellipse myShape = new Ellipse();
+            myShape.Width = 250;
+            myShape.Height = 250; 
+            myShape.Fill = MainWindow.mySolidColorBrushRed; 
         }
 
         public void Destroy(_Group group)

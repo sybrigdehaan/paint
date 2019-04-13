@@ -11,24 +11,19 @@ namespace paint
 {
     public partial class MainWindow : Window
     {
-        public static double x1, y1, x2, y2;
-        public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
-
         private Items currentItem;
-        bool drawn = false;
+        private bool drawn = false;
+        public static double x1, y1, x2, y2;
 
-        InkCanvas MyInkCanvas = Singleton.GetInstance();
+        public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
+        private UndoRedoManager undoRedoManager = new UndoRedoManager();
+        private InkCanvas MyInkCanvas = Singleton.GetInstance();
+        private ICustomObjectVisitor visitor = new CustumObjectVisitor();
+        private SimpleRemoteControl remote = new SimpleRemoteControl();
 
-        ICustomObjectVisitor visitor = new CustumObjectVisitor(); 
-
-        SimpleRemoteControl remote = new SimpleRemoteControl();
-
-        Stack<SimpleRemoteControl> undoRemoteControls = new Stack<SimpleRemoteControl>();
-        Queue<SimpleRemoteControl> redoRemoteControls = new Queue<SimpleRemoteControl>();
-
-        _Group myMainGroup = new _Group();
-        _Ellipse myEllipse;
-        _Rectangle myRectangle;
+        private _Group myMainGroup = new _Group();
+        private _Ellipse myEllipse;
+        private _Rectangle myRectangle;
 
         public MainWindow()
         {
@@ -63,23 +58,10 @@ namespace paint
                 case "Save":
                     break;
                 case "Redo":
-                    if(redoRemoteControls.Count != 0)
-                    {
-                        remote = redoRemoteControls.Peek();
-                        redoRemoteControls.Dequeue();
-                        remote.buttonWasPressed();
-                    }
-                    else
-                        MessageBox.Show("Er zijn geen redo's meer!");
+                    undoRedoManager.Redo();
                     break;
                 case "Undo":
-                    if (undoRemoteControls.Count != 0)
-                    {
-                        remote = undoRemoteControls.Pop();
-                        remote.buttonWasPressed();
-                    }
-                    else
-                        MessageBox.Show("Er zijn geen undo's meer!");
+                    undoRedoManager.Undo();
                     break;
             }
         }
@@ -112,13 +94,11 @@ namespace paint
                             if (figure.GetShape() == myArray[i])
                                 selectedFigure = figure;
                         }
-                        remote = new SimpleRemoteControl();
-                        remote.SetCommand = new _DestroyShape(selectedFigure, myMainGroup);
+                        remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(selectedFigure, myMainGroup) };
                         remote.buttonWasPressed();
 
-                        remote = new SimpleRemoteControl();
-                        remote.SetCommand = new _MakeShape(selectedFigure, myMainGroup);
-                        undoRemoteControls.Push(remote);
+                        remote = new SimpleRemoteControl { SetCommand = new _MakeShape(selectedFigure, myMainGroup) };
+                        undoRedoManager.AddToUndo(remote);
                     }
                     break;
             }
@@ -189,17 +169,15 @@ namespace paint
             {
                 case Items.Rectangle:
                     myRectangle = new _Rectangle();
-                    remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _MakeShape(myRectangle, myMainGroup);
-                    remote.buttonWasPressed(); 
-                    redoRemoteControls.Enqueue(remote);
+                    remote = new SimpleRemoteControl { SetCommand = new _MakeShape(myRectangle, myMainGroup) };
+                    remote.buttonWasPressed();
+                    undoRedoManager.AddToRedo(remote);
                     break;
                 case Items.Ellipse:
                     myEllipse = new _Ellipse();
-                    remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _MakeShape(myEllipse, myMainGroup);
+                    remote = new SimpleRemoteControl { SetCommand = new _MakeShape(myEllipse, myMainGroup) };
                     remote.buttonWasPressed();
-                    redoRemoteControls.Enqueue(remote);
+                    undoRedoManager.AddToRedo(remote);
                     break;
             }
         }
@@ -210,14 +188,12 @@ namespace paint
             switch (currentItem)
             {
                 case Items.Rectangle:
-                    remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _DestroyShape(myRectangle, myMainGroup);
-                    undoRemoteControls.Push(remote);
+                    remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(myRectangle, myMainGroup) };
+                    undoRedoManager.AddToUndo(remote);
                     break;
                 case Items.Ellipse:
-                    remote = new SimpleRemoteControl();
-                    remote.SetCommand = new _DestroyShape(myEllipse, myMainGroup);
-                    undoRemoteControls.Push(remote);
+                    remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(myEllipse, myMainGroup) };
+                    undoRedoManager.AddToUndo(remote);
                     break;
             }
         }
