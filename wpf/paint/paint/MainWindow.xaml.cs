@@ -75,10 +75,10 @@ namespace paint
             switch (((FrameworkElement)sender).Name)
             {
                 case "Delete_Group":
-                    ChangeGroup.Un_Group(myArray, ref myMainGroup);
+                    ChangeGroup.Un_Group(myArray, ref myMainGroup, undoRedoManager);
                     break;
                 case "Add_Group":
-                    ChangeGroup.AddTo_Group(myArray, ref myMainGroup);
+                    ChangeGroup.AddTo_Group(myArray, ref myMainGroup, undoRedoManager);
                     break;
                 case "Select":
                     MyInkCanvas.EditingMode = InkCanvasEditingMode.Select;

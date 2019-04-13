@@ -11,11 +11,8 @@ namespace paint
 {
     public class ChangeGroup
     {
-        public static void AddTo_Group(FrameworkElement[] myArray, ref _Group myMainGroup)
+        public static void AddTo_Group(FrameworkElement[] myArray, ref _Group myMainGroup, UndoRedoManager undoRedoManager)
         {
-            //SimpleRemoteControl remote = new SimpleRemoteControl();
-            //remote.SetCommand = new _DestroyGroup(myMainGroup, myMainGroup);
-
             _Group myGroup = new _Group();
             Canvas groupCanvas = myGroup.groupCanvas;
             
@@ -64,14 +61,15 @@ namespace paint
             groupCanvas.Width = farthestRight;
             groupCanvas.Height = farthestBottom;
 
-            myMainGroup.Add(myGroup);
-            Singleton.GetInstance().Children.Add(myGroup.GetShape()); 
-            //SimpleRemoteControl makeRemote = new SimpleRemoteControl();
-            //makeRemote.SetCommand = new _MakeGroup(myGroup, myMainGroup);
-            //makeRemote.buttonWasPressed(); 
+            SimpleRemoteControl remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(myGroup, myMainGroup) };
+            remote.buttonWasPressed();
+            undoRedoManager.AddToRedo(remote);
+
+            SimpleRemoteControl reverseRemote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(myGroup, myMainGroup) };
+            undoRedoManager.AddToUndo(reverseRemote);
         }
 
-        public static void Un_Group(FrameworkElement[] myArray, ref _Group myMainGroup)
+        public static void Un_Group(FrameworkElement[] myArray, ref _Group myMainGroup, UndoRedoManager undoRedoManager)
         {
             if (myArray.Length == 1 && myArray[0].GetType() == typeof(Canvas))
             {
@@ -87,7 +85,13 @@ namespace paint
                     }
                 }
 
-                myMainGroup.Remove(selectedFrameworkGroup);
+                SimpleRemoteControl remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(selectedFrameworkGroup, myMainGroup) };
+                remote.buttonWasPressed();
+                undoRedoManager.AddToUndo(remote);
+
+                SimpleRemoteControl reverseRemote = new SimpleRemoteControl { SetCommand = new _MakeGroup(selectedFrameworkGroup, myMainGroup) };
+                undoRedoManager.AddToRedo(reverseRemote);
+
 
                 foreach (IFigures figure in selectedFrameworkGroup.SubFigures)
                 {
@@ -99,8 +103,6 @@ namespace paint
 
                     InkCanvas.SetTop(element, elementTop);
                     InkCanvas.SetLeft(element, elementLeft);
-
-                    myMainGroup.Add(figure);
                 }
             }
             else

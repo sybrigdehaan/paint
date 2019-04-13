@@ -47,16 +47,23 @@ namespace paint
         {
             group.Add(this);
             Singleton.GetInstance().Children.Add(groupCanvas);
-            Ellipse myShape = new Ellipse();
-            myShape.Width = 250;
-            myShape.Height = 250; 
-            myShape.Fill = MainWindow.mySolidColorBrushRed; 
         }
 
         public void Destroy(_Group group)
         {
             group.Remove(this);
             Singleton.GetInstance().Children.Remove(groupCanvas);
+            foreach (var item in SubFigures)
+            {
+                groupCanvas.Children.Remove(item.GetShape());
+            }
+
+            foreach (var figure in SubFigures)
+            {
+                group.Add(figure); 
+                Singleton.GetInstance().Children.Add(figure.GetShape());
+            }
+           
         }
     }
 
@@ -72,7 +79,7 @@ namespace paint
 
         public void Execute()
         {
-            _myGroup.Add(figure);
+            _myGroup.Make(figure as _Group);
         }
     }
 
@@ -88,7 +95,7 @@ namespace paint
 
         public void Execute()
         {
-            _myGroup.Remove(figure);
+            _myGroup.Destroy(figure as _Group);
         }
     }
 }
