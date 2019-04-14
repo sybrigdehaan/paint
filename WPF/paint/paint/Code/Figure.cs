@@ -9,7 +9,6 @@ namespace paint
 {
     public abstract class _Shape : IFigures
     {
-
         protected Shape myShape;
         protected List<Ornament> myOrnament;
 
@@ -33,16 +32,16 @@ namespace paint
             _ShapesList.Add(this);
         }
 
-        public void Make(_Group group)
+        public void Make(List<IFigures> selectedFigures = null)
         {
-            group.Add(this); 
-            Singleton.GetInstance().Children.Add(myShape);
+            MyMainGroup.GetInstance().Add(this); 
+            MyInkCanvas.GetInstance().Children.Add(myShape);
         }
 
-        public void Destroy(_Group group)
+        public void Destroy()
         {
-            group.Remove(this); 
-            Singleton.GetInstance().Children.Remove(myShape);
+            MyMainGroup.GetInstance().Remove(this); 
+            MyInkCanvas.GetInstance().Children.Remove(myShape);
         }
     }
 
@@ -75,32 +74,28 @@ namespace paint
     public class _MakeShape : ICommand
     {
         private IFigures _myShape;
-        private _Group group; 
-        public _MakeShape(IFigures _myShape, _Group group)
+        public _MakeShape(IFigures _myShape)
         {
             this._myShape = _myShape;
-            this.group = group; 
         }
 
         public void Execute()
         {
-            _myShape.Make(group);
+            _myShape.Make();
         }
     }
 
     public class _DestroyShape : ICommand
     {
         private IFigures _myShape;
-        private _Group group;
-        public _DestroyShape(IFigures _myShape, _Group group)
+        public _DestroyShape(IFigures _myShape)
         {
             this._myShape = _myShape;
-            this.group = group;
         }
 
         public void Execute()
         {
-            _myShape.Destroy(group);
+            _myShape.Destroy();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace paint
         FrameworkElement GetShape();
         void ShowFigureDetails();
         void Get_Shape(ref List<IFigures> _ShapesList);
-        void Make(_Group group);
-        void Destroy(_Group group); 
+        void Make(List<IFigures> selectedFigures = null);
+        void Destroy(); 
     }
 }

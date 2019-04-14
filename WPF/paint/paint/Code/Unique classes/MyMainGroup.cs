@@ -3,27 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Media;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace paint
 {
-    public class Singleton : InkCanvas
+    public class MyMainGroup : _Group
     {
         // Thread-safe oplossing om slechts één instantie aan te maken.
-        private static Singleton inkCanvas; 
+        private static MyMainGroup myMainGroup;
 
         // Private constructor om te voorkomen dat anderen een instantie kunnen aanmaken.
-        private Singleton() { }
+        private MyMainGroup() { }
 
         // Via een static read-only property kan de instantie benaderd worden.
-        public static Singleton GetInstance()
+        public static MyMainGroup GetInstance()
         {
-            if (inkCanvas == null)
-                inkCanvas = new Singleton();
-            return inkCanvas; 
+            if (myMainGroup == null)
+                myMainGroup = new MyMainGroup();
+            return myMainGroup;
         }
     }
-
 }

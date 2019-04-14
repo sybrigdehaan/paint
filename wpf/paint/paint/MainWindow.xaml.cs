@@ -16,20 +16,22 @@ namespace paint
         public static double x1, y1, x2, y2;
 
         public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
-        private UndoRedoManager undoRedoManager = new UndoRedoManager();
-        private InkCanvas MyInkCanvas = Singleton.GetInstance();
+        public static UndoRedoManager undoRedoManager = new UndoRedoManager();
+
+        private InkCanvas myInkCanvas = MyInkCanvas.GetInstance();
+        private _Group myMainGroup = MyMainGroup.GetInstance();
+
         private ICustomObjectVisitor visitor = new CustumObjectVisitor();
         private SimpleRemoteControl remote = new SimpleRemoteControl();
 
-        private _Group myMainGroup = new _Group();
         private _Ellipse myEllipse;
         private _Rectangle myRectangle;
 
         public MainWindow()
         {
             InitializeComponent();
-            myGrid.Children.Add(MyInkCanvas);
-            MyInkCanvas.EditingMode = InkCanvasEditingMode.None;
+            myGrid.Children.Add(myInkCanvas);
+            myInkCanvas.EditingMode = InkCanvasEditingMode.None;
             mySolidColorBrushRed.Color = Color.FromArgb(255, 255, 0, 0);
         }
 
@@ -37,7 +39,7 @@ namespace paint
 
         private void Button_MakeFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MyInkCanvas.EditingMode = InkCanvasEditingMode.None;
+            myInkCanvas.EditingMode = InkCanvasEditingMode.None;
             switch (((FrameworkElement)sender).Name)
             {
                 case "Rectangle":
@@ -69,36 +71,79 @@ namespace paint
         private void Button_ChangeFigure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             currentItem = Items.None;
-            FrameworkElement[] myArray = new FrameworkElement[MyInkCanvas.GetSelectedElements().Count];
-            MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
+            FrameworkElement[] myArray = new FrameworkElement[myInkCanvas.GetSelectedElements().Count];
+            myInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
             switch (((FrameworkElement)sender).Name)
             {
                 case "Delete_Group":
-                    ChangeGroup.Un_Group(myArray, ref myMainGroup, undoRedoManager);
+                    _Group selectedGroup = new _Group();
+                    foreach (IFigures figure in myMainGroup.SubFigures)
+                    {
+                        if (typeof(_Group) == figure.GetType())
+                        {
+                            if (figure.GetShape() == myArray[0])
+                                selectedGroup = ((figure as _Group));
+                        }
+                    }
+
+                    remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(selectedGroup) };
+                    remote.buttonWasPressed();
+                    undoRedoManager.AddToUndo(remote);
+
+                    remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(selectedGroup, selectedGroup.SubFigures) };
+                    undoRedoManager.AddToRedo(remote);
                     break;
                 case "Add_Group":
-                    ChangeGroup.AddTo_Group(myArray, ref myMainGroup, undoRedoManager);
-                    break;
-                case "Select":
-                    MyInkCanvas.EditingMode = InkCanvasEditingMode.Select;
-                    break;
-                case "Eraser":
-                    List<IFigures> _ShapesList = new List<IFigures>();
-                    myMainGroup.Get_Shape(ref _ShapesList);
+                    List<IFigures> selectedFigures = new List<IFigures>(); 
                     for (int i = 0; i < myArray.Length; i++)
                     {
-                        IFigures selectedFigure = null;
-                        foreach (IFigures figure in _ShapesList)
+                        foreach (IFigures figure in myMainGroup.SubFigures)
                         {
                             if (figure.GetShape() == myArray[i])
-                                selectedFigure = figure;
+                                selectedFigures.Add(figure); 
                         }
-                        remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(selectedFigure, myMainGroup) };
-                        remote.buttonWasPressed();
+                    }
+            
+                    _Group myGroup = new _Group();
+                    remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(myGroup, selectedFigures) };
+                    remote.buttonWasPressed();
+                    undoRedoManager.AddToRedo(remote);
 
-                        remote = new SimpleRemoteControl { SetCommand = new _MakeShape(selectedFigure, myMainGroup) };
-                        undoRedoManager.AddToUndo(remote);
+                    remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(myGroup) };
+                    undoRedoManager.AddToUndo(remote);
+                    break;
+                case "Select":
+                    myInkCanvas.EditingMode = InkCanvasEditingMode.Select;
+                    break;
+                case "Eraser":
+                    for (int i = 0; i < myArray.Length; i++)
+                    {
+                        IFigures eraserSelectedFigure = null;
+                        foreach (IFigures figure in myMainGroup.SubFigures)
+                        {
+                            if (figure.GetShape() == myArray[i])
+                                eraserSelectedFigure = figure;
+                        }
+
+                        if (typeof(_Group) == eraserSelectedFigure.GetType())
+                        {
+                            remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(eraserSelectedFigure as _Group) };
+                            remote.buttonWasPressed();
+                            undoRedoManager.AddToUndo(remote);
+
+                            remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(eraserSelectedFigure as _Group, (eraserSelectedFigure as _Group).SubFigures) };
+                            undoRedoManager.AddToRedo(remote);
+                        }
+
+                        else
+                        {
+                            remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(eraserSelectedFigure) };
+                            remote.buttonWasPressed();
+
+                            remote = new SimpleRemoteControl { SetCommand = new _MakeShape(eraserSelectedFigure) };
+                            undoRedoManager.AddToUndo(remote);
+                        }
                     }
                     break;
             }
@@ -107,8 +152,8 @@ namespace paint
         private void Button_AddToFigure_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
             // haalt alle geslecteerde items op en zet het in array Shape
-            FrameworkElement[] myArray = new FrameworkElement[MyInkCanvas.GetSelectedElements().Count];
-            MyInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
+            FrameworkElement[] myArray = new FrameworkElement[myInkCanvas.GetSelectedElements().Count];
+            myInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
             List<IFigures> _ShapesList = new List<IFigures>();
             myMainGroup.Get_Shape(ref _ShapesList);
@@ -129,7 +174,7 @@ namespace paint
                     double OrnamentRightHeigth = myArray[0].Height / 2;
                     double OrnamentRightWidht = myArray[0].Width;
                     Right ornamentRight = new Right("ornament", (ornamentRightLeft + OrnamentRightWidht), (OrnamentRightHeigth + ornamentRightTop));
-                    ornamentRight.Add(ref MyInkCanvas, selectedFigure);
+                    ornamentRight.Add(ref myInkCanvas, selectedFigure);
                     break;
 
                 case "OrnamentLeft":
@@ -137,7 +182,7 @@ namespace paint
                     double OrnamentLeftTop = InkCanvas.GetTop(myArray[0]);
                     double OrnamentLeftHeigth = myArray[0].Height / 2;
                     Left ornamentLeft = new Left("ornament", OrnamentLeftLeft, (OrnamentLeftHeigth + OrnamentLeftTop));
-                    ornamentLeft.Add(ref MyInkCanvas, selectedFigure);
+                    ornamentLeft.Add(ref myInkCanvas, selectedFigure);
                     break;
 
                 case "OrnamentTop":
@@ -145,7 +190,7 @@ namespace paint
                     double ornamentTopTop = InkCanvas.GetTop(myArray[0]);
                     double OrnamentTopWidth = myArray[0].Width / 2;
                     Top ornamenTtop = new Top("ornament", (OrnamentTopWidth + OrnamentTopRight), ornamentTopTop);
-                    ornamenTtop.Add(ref MyInkCanvas, selectedFigure);
+                    ornamenTtop.Add(ref myInkCanvas, selectedFigure);
                     break;
 
                 case "OrnamentBottom":
@@ -154,7 +199,7 @@ namespace paint
                     double OrnamentBottomWidth = myArray[0].Width / 2;
                     double OrnamentBottomHeight = myArray[0].Height;
                     Bottom OrnamentBottom = new Bottom("ornament", (ornamentBottomTop + OrnamentBottomWidth), (ornamentBottomTop + OrnamentBottomHeight));
-                    OrnamentBottom.Add(ref MyInkCanvas, selectedFigure);
+                    OrnamentBottom.Add(ref myInkCanvas, selectedFigure);
                     break;
             }
         }
@@ -162,20 +207,20 @@ namespace paint
         private void InkCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             drawn = true;
-            Point p = e.GetPosition(MyInkCanvas);
+            Point p = e.GetPosition(myInkCanvas);
             x1 = p.X; y1 = p.Y;
 
             switch (currentItem)
             {
                 case Items.Rectangle:
                     myRectangle = new _Rectangle();
-                    remote = new SimpleRemoteControl { SetCommand = new _MakeShape(myRectangle, myMainGroup) };
+                    remote = new SimpleRemoteControl { SetCommand = new _MakeShape(myRectangle) };
                     remote.buttonWasPressed();
                     undoRedoManager.AddToRedo(remote);
                     break;
                 case Items.Ellipse:
                     myEllipse = new _Ellipse();
-                    remote = new SimpleRemoteControl { SetCommand = new _MakeShape(myEllipse, myMainGroup) };
+                    remote = new SimpleRemoteControl { SetCommand = new _MakeShape(myEllipse) };
                     remote.buttonWasPressed();
                     undoRedoManager.AddToRedo(remote);
                     break;
@@ -188,11 +233,11 @@ namespace paint
             switch (currentItem)
             {
                 case Items.Rectangle:
-                    remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(myRectangle, myMainGroup) };
+                    remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(myRectangle) };
                     undoRedoManager.AddToUndo(remote);
                     break;
                 case Items.Ellipse:
-                    remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(myEllipse, myMainGroup) };
+                    remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(myEllipse) };
                     undoRedoManager.AddToUndo(remote);
                     break;
             }
@@ -200,7 +245,7 @@ namespace paint
 
         private void InkCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            Point p = e.GetPosition(MyInkCanvas);
+            Point p = e.GetPosition(myInkCanvas);
             x2 = p.X; y2 = p.Y;
 
             if (drawn)

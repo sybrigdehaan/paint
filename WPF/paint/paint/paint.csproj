@@ -70,7 +70,8 @@
     <Compile Include="Code\Group.cs" />
     <Compile Include="Code\Ornament.cs" />
     <Compile Include="Code\SimpleRemoteControl.cs" />
-    <Compile Include="Code\Singleton.cs" />
+    <Compile Include="Code\Unique classes\MyMainGroup.cs" />
+    <Compile Include="Code\Unique classes\MyInkCanvas.cs" />
     <Compile Include="Code\UndoRedoManager.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IFigures.cs" />

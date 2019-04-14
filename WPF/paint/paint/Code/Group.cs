@@ -43,59 +43,44 @@ namespace paint
             }
         }
 
-        public void Make(_Group group)
+        public void Make(List<IFigures> selectedFigures)
         {
-            group.Add(this);
-            Singleton.GetInstance().Children.Add(groupCanvas);
+            ChangeGroup.AddTo_Group(this, selectedFigures);
         }
 
-        public void Destroy(_Group group)
+        public void Destroy()
         {
-            group.Remove(this);
-            Singleton.GetInstance().Children.Remove(groupCanvas);
-            foreach (var item in SubFigures)
-            {
-                groupCanvas.Children.Remove(item.GetShape());
-            }
-
-            foreach (var figure in SubFigures)
-            {
-                group.Add(figure); 
-                Singleton.GetInstance().Children.Add(figure.GetShape());
-            }
-           
+            ChangeGroup.Un_Group(this);
         }
     }
 
     public class _MakeGroup : ICommand
     {
         private _Group _myGroup;
-        private IFigures figure;
-        public _MakeGroup(_Group _myGroup, IFigures figure)
+        private List<IFigures> selectedFigures;
+        public _MakeGroup(_Group _myGroup, List<IFigures> selectedFigures)
         {
             this._myGroup = _myGroup;
-            this.figure = figure;
+            this.selectedFigures = selectedFigures;
         }
 
         public void Execute()
         {
-            _myGroup.Make(figure as _Group);
+            _myGroup.Make(selectedFigures);
         }
     }
 
     public class _DestroyGroup : ICommand
     {
         private _Group _myGroup;
-        private IFigures figure;
-        public _DestroyGroup(_Group _myGroup, IFigures figure)
+        public _DestroyGroup(_Group _myGroup)
         {
             this._myGroup = _myGroup;
-            this.figure = figure;
         }
 
         public void Execute()
         {
-            _myGroup.Destroy(figure as _Group);
+            _myGroup.Destroy();
         }
     }
 }

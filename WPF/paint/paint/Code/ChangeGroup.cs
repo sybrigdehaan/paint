@@ -11,105 +11,87 @@ namespace paint
 {
     public class ChangeGroup
     {
-        public static void AddTo_Group(FrameworkElement[] myArray, ref _Group myMainGroup, UndoRedoManager undoRedoManager)
+        public static void AddTo_Group(_Group myGroup, List<IFigures> selectedFigures)
         {
-            _Group myGroup = new _Group();
-            Canvas groupCanvas = myGroup.groupCanvas;
-            
-            groupCanvas.Background = Brushes.Transparent;
-            groupCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
-            
-            double nearestTop = InkCanvas.GetTop(myArray[0]), nearestLeft = InkCanvas.GetLeft(myArray[0]);
-            double farthestRight = 0, farthestBottom = 0;
-
-            List<IFigures> _ShapesList = new List<IFigures>();
-            myMainGroup.Get_Shape(ref _ShapesList);
-            for (int i = 0; i < myArray.Length; i++)
+            try
             {
-                IFigures selectedFigure = null;
-                foreach (IFigures figure in _ShapesList)
+                Canvas groupCanvas = myGroup.groupCanvas;
+
+                groupCanvas.Background = Brushes.Transparent;
+                groupCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
+
+                double nearestTop = InkCanvas.GetTop(selectedFigures[0].GetShape()), nearestLeft = InkCanvas.GetLeft(selectedFigures[0].GetShape());
+                double farthestRight = 0, farthestBottom = 0;
+
+                foreach (IFigures figures in selectedFigures)
                 {
-                    if (figure.GetShape() == myArray[i])
-                        selectedFigure = figure;
+                    MyMainGroup.GetInstance().Remove(figures);
+                    MyInkCanvas.GetInstance().Children.Remove(figures.GetShape());
+                    groupCanvas.Children.Add(figures.GetShape());
+                    myGroup.Add(figures);
+
+                    //Checking how the inkcanvas position must be. 
+                    if (InkCanvas.GetLeft(figures.GetShape()) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(figures.GetShape()); }
+                    if (InkCanvas.GetTop(figures.GetShape()) < nearestTop) { nearestTop = InkCanvas.GetTop(figures.GetShape()); }
                 }
 
-                myMainGroup.Remove(selectedFigure);
-                Singleton.GetInstance().Children.Remove(selectedFigure.GetShape()); 
-                groupCanvas.Children.Add(selectedFigure.GetShape()); 
-                myGroup.Add(selectedFigure);
 
-                //Checking how the inkcanvas position must be. 
-                if (InkCanvas.GetLeft(myArray[i]) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(myArray[i]); }
-                if (InkCanvas.GetTop(myArray[i]) < nearestTop) { nearestTop = InkCanvas.GetTop(myArray[i]); }
+                foreach (IFigures figures in selectedFigures)
+                {
+                    FrameworkElement myShape = figures.GetShape();
+                    //Set the right top and left for the object to set in the inkcanvas
+                    double myTop = InkCanvas.GetTop(myShape);
+                    double myLeft = InkCanvas.GetLeft(myShape);
+                    Canvas.SetTop(myShape, (myTop - nearestTop));
+                    Canvas.SetLeft(myShape, (myLeft - nearestLeft));
+
+                    //Checking which object is the farthest away for the width and height of the inkcanvas. 
+                    if (Canvas.GetLeft(myShape) + myShape.Width > farthestRight) { farthestRight = Canvas.GetLeft(myShape) + myShape.Width; }
+                    if (Canvas.GetTop(myShape) + myShape.Height > farthestBottom) { farthestBottom = Canvas.GetTop(myShape) + myShape.Height; }
+                }
+
+                InkCanvas.SetTop(groupCanvas, nearestTop);
+                InkCanvas.SetLeft(groupCanvas, nearestLeft);
+                groupCanvas.Width = farthestRight;
+                groupCanvas.Height = farthestBottom;
+
+                MyMainGroup.GetInstance().Add(myGroup);
+                MyInkCanvas.GetInstance().Children.Add(groupCanvas);
             }
-
-            foreach (FrameworkElement myShape in myArray)
+            catch
             {
-                //Set the right top and left for the object to set in the inkcanvas
-                double myTop = InkCanvas.GetTop(myShape);
-                double myLeft = InkCanvas.GetLeft(myShape);
-                Canvas.SetTop(myShape, (myTop - nearestTop));
-                Canvas.SetLeft(myShape, (myLeft - nearestLeft));
-
-                //Checking which object is the farthest away for the width and height of the inkcanvas. 
-                if (Canvas.GetLeft(myShape) + myShape.Width > farthestRight) { farthestRight = Canvas.GetLeft(myShape) + myShape.Width; }
-                if (Canvas.GetTop(myShape) + myShape.Height > farthestBottom) { farthestBottom = Canvas.GetTop(myShape) + myShape.Height; }
+                MessageBox.Show("Something went wrong :()");
             }
-
-            InkCanvas.SetTop(groupCanvas, nearestTop);
-            InkCanvas.SetLeft(groupCanvas, nearestLeft);
-            groupCanvas.Width = farthestRight;
-            groupCanvas.Height = farthestBottom;
-
-            SimpleRemoteControl remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(myGroup, myMainGroup) };
-            remote.buttonWasPressed();
-            undoRedoManager.AddToRedo(remote);
-
-            SimpleRemoteControl reverseRemote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(myGroup, myMainGroup) };
-            undoRedoManager.AddToUndo(reverseRemote);
         }
 
-        public static void Un_Group(FrameworkElement[] myArray, ref _Group myMainGroup, UndoRedoManager undoRedoManager)
+        public static void Un_Group(_Group figure)
         {
-            if (myArray.Length == 1 && myArray[0].GetType() == typeof(Canvas))
+            try
             {
-                _Group selectedFrameworkGroup = new _Group(); //The selected framework custum group
-                List<IFigures> inGroupList = new List<IFigures>(); //The selected framework custum group subFigures
+                MyMainGroup.GetInstance().Remove(figure);
+                MyInkCanvas.GetInstance().Children.Remove(figure.GetShape());
 
-                foreach (IFigures figure in myMainGroup.SubFigures)
+                foreach (IFigures inGroupFigure in figure.SubFigures)
                 {
-                    if (typeof(_Group) == figure.GetType())
-                    {
-                        if ((figure as _Group).groupCanvas == myArray[0])
-                            selectedFrameworkGroup = ((figure as _Group));
-                    }
-                }
+                    (figure.GetShape() as Canvas).Children.Remove(inGroupFigure.GetShape());
 
-                SimpleRemoteControl remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(selectedFrameworkGroup, myMainGroup) };
-                remote.buttonWasPressed();
-                undoRedoManager.AddToUndo(remote);
-
-                SimpleRemoteControl reverseRemote = new SimpleRemoteControl { SetCommand = new _MakeGroup(selectedFrameworkGroup, myMainGroup) };
-                undoRedoManager.AddToRedo(reverseRemote);
-
-
-                foreach (IFigures figure in selectedFrameworkGroup.SubFigures)
-                {
-                    (myArray[0] as Canvas).Children.Remove(figure.GetShape());
-
-                    FrameworkElement element = figure.GetShape();
-                    double elementTop = Canvas.GetTop(element) + InkCanvas.GetTop(myArray[0]);
-                    double elementLeft = Canvas.GetLeft(element) + InkCanvas.GetLeft(myArray[0]);
+                    FrameworkElement element = inGroupFigure.GetShape();
+                    double elementTop = Canvas.GetTop(element) + InkCanvas.GetTop(figure.GetShape());
+                    double elementLeft = Canvas.GetLeft(element) + InkCanvas.GetLeft(figure.GetShape());
 
                     InkCanvas.SetTop(element, elementTop);
                     InkCanvas.SetLeft(element, elementLeft);
+
+                    MyMainGroup.GetInstance().Add(figure);
+                    MyInkCanvas.GetInstance().Children.Add(element);
                 }
             }
-            else
+            catch
             {
                 MessageBox.Show("Je hebt meer dan 1 object of geen groep object geselecteerd!");
             }
         }
+
 
         private static void SizeChanged(object sender, SizeChangedEventArgs e)
         {
