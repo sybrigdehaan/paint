@@ -18,8 +18,8 @@ namespace paint
         public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
         public static UndoRedoManager undoRedoManager = new UndoRedoManager();
 
-        private InkCanvas myInkCanvas = MyInkCanvas.GetInstance();
-        private _Group myMainGroup = MyMainGroup.GetInstance();
+        public static InkCanvas myInkCanvas = MyInkCanvas.GetInstance();
+        public static _Group myMainGroup = MyMainGroup.GetInstance();
 
         private ICustomObjectVisitor visitor = new CustumObjectVisitor();
         private SimpleRemoteControl remote = new SimpleRemoteControl();

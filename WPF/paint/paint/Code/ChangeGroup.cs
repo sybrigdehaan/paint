@@ -15,8 +15,7 @@ namespace paint
         {
             try
             {
-                Canvas groupCanvas = myGroup.groupCanvas;
-
+                Canvas groupCanvas = (myGroup.GetShape() as Canvas);
                 groupCanvas.Background = Brushes.Transparent;
                 groupCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
 
@@ -30,7 +29,7 @@ namespace paint
                     groupCanvas.Children.Add(figures.GetShape());
                     myGroup.Add(figures);
 
-                    //Checking how the inkcanvas position must be. 
+                    Checking how the inkcanvas position must be.
                     if (InkCanvas.GetLeft(figures.GetShape()) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(figures.GetShape()); }
                     if (InkCanvas.GetTop(figures.GetShape()) < nearestTop) { nearestTop = InkCanvas.GetTop(figures.GetShape()); }
                 }
@@ -39,13 +38,13 @@ namespace paint
                 foreach (IFigures figures in selectedFigures)
                 {
                     FrameworkElement myShape = figures.GetShape();
-                    //Set the right top and left for the object to set in the inkcanvas
+                    Set the right top and left for the object to set in the inkcanvas
                     double myTop = InkCanvas.GetTop(myShape);
                     double myLeft = InkCanvas.GetLeft(myShape);
                     Canvas.SetTop(myShape, (myTop - nearestTop));
                     Canvas.SetLeft(myShape, (myLeft - nearestLeft));
 
-                    //Checking which object is the farthest away for the width and height of the inkcanvas. 
+                    Checking which object is the farthest away for the width and height of the inkcanvas.
                     if (Canvas.GetLeft(myShape) + myShape.Width > farthestRight) { farthestRight = Canvas.GetLeft(myShape) + myShape.Width; }
                     if (Canvas.GetTop(myShape) + myShape.Height > farthestBottom) { farthestBottom = Canvas.GetTop(myShape) + myShape.Height; }
                 }
@@ -60,7 +59,7 @@ namespace paint
             }
             catch
             {
-                MessageBox.Show("Something went wrong :()");
+                MessageBox.Show("Something went horribly wrong :(");
             }
         }
 
@@ -82,13 +81,14 @@ namespace paint
                     InkCanvas.SetTop(element, elementTop);
                     InkCanvas.SetLeft(element, elementLeft);
 
-                    MyMainGroup.GetInstance().Add(figure);
+                    MyMainGroup.GetInstance().Add(inGroupFigure);
                     MyInkCanvas.GetInstance().Children.Add(element);
                 }
+
             }
             catch
             {
-                MessageBox.Show("Je hebt meer dan 1 object of geen groep object geselecteerd!");
+                MessageBox.Show("Something went horribly wrong :(");
             }
         }
 
@@ -128,6 +128,5 @@ namespace paint
                 element.Height = element.Height * scale_Height;
             }
         }
-
     }
 }
