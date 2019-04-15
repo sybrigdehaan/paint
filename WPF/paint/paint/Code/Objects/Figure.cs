@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 
 namespace paint
 {
@@ -11,7 +11,9 @@ namespace paint
     {
         protected Shape myShape;
         protected List<Ornament> myOrnament;
+        protected int depthInList; 
 
+        public int GetDepthInList() { return depthInList; }
         public FrameworkElement GetShape(){ return myShape;  }
 
         public Ornament _Ornament { set { myOrnament.Add(value); } }
@@ -27,9 +29,14 @@ namespace paint
             if (y1 < y2) InkCanvas.SetTop(myShape, y1); else InkCanvas.SetTop(myShape, y2);
         }
 
-        public void Get_Shape(ref List<IFigures> _ShapesList)
+        public void DepthInList(int depthInList)
         {
-            _ShapesList.Add(this);
+            this.depthInList = depthInList;
+        }
+
+        public void Accept(ICustomObjectVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public void Make(List<IFigures> selectedFigures = null)
@@ -51,11 +58,6 @@ namespace paint
         {
             myShape = new Rectangle();
         }
-
-        public override void ShowFigureDetails()
-        {
-            Console.WriteLine("This is a: Ellipse, With the measurement: " + "left: " + InkCanvas.GetLeft(myShape) + ", Top: " + InkCanvas.GetTop(myShape) + ", Width: " + myShape.Width + ", Height: " + myShape.Height);
-        }
     }
 
     public class _Ellipse : _Shape
@@ -63,11 +65,6 @@ namespace paint
         public _Ellipse()
         {
             myShape = new Ellipse();
-        }
-
-        public override void ShowFigureDetails()
-        {
-            Console.WriteLine("This is a: Ellipse, With the measurement: " + "left: " + InkCanvas.GetLeft(myShape) + ", Top: " + InkCanvas.GetTop(myShape) + ", Width: " + myShape.Width + ", Height: " + myShape.Height);
         }
     }
 

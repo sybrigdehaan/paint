@@ -1,0 +1,12 @@
+ Ellipse 539,5 251 121 102
+ Ellipse 682,5 268 65 76
+ Group
+  Group
+   Rectangle 523,5 49 95 106
+   Rectangle 661,5 66 85 76
+   Group
+    Rectangle 117,5 52 126 128
+    Rectangle 278,5 44 168 166
+  Group
+   Rectangle 151,5 275 117 93
+   Ellipse 320,5 267 72 86

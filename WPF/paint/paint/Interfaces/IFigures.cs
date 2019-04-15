@@ -12,9 +12,10 @@ namespace paint
     public interface IFigures
     {
         FrameworkElement GetShape();
-        void ShowFigureDetails();
-        void Get_Shape(ref List<IFigures> _ShapesList);
+        int GetDepthInList(); 
+        void DepthInList(int depthInList);
         void Make(List<IFigures> selectedFigures = null);
-        void Destroy(); 
+        void Destroy();
+        void Accept(ICustomObjectVisitor visitor);
     }
 }

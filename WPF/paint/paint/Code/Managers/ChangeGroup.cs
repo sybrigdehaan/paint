@@ -26,8 +26,15 @@ namespace paint
                 {
                     MyMainGroup.GetInstance().Remove(figures);
                     MyInkCanvas.GetInstance().Children.Remove(figures.GetShape());
-                    groupCanvas.Children.Add(figures.GetShape());
+
+                    InkCanvas ink = MyInkCanvas.GetInstance();
+                    _Group grop = MyMainGroup.GetInstance(); 
+                    
                     myGroup.Add(figures);
+                    groupCanvas.Children.Add(figures.GetShape());
+
+                    InkCanvas ink1 = MyInkCanvas.GetInstance();
+                    _Group grop1 = MyMainGroup.GetInstance();
 
                     //Checking how the inkcanvas position must be.
                     if (InkCanvas.GetLeft(figures.GetShape()) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(figures.GetShape()); }
@@ -54,8 +61,14 @@ namespace paint
                 groupCanvas.Width = farthestRight;
                 groupCanvas.Height = farthestBottom;
 
+                InkCanvas ink2 = MyInkCanvas.GetInstance();
+                _Group grop2 = MyMainGroup.GetInstance();
+
                 MyMainGroup.GetInstance().Add(myGroup);
                 MyInkCanvas.GetInstance().Children.Add(groupCanvas);
+
+                InkCanvas ink3 = MyInkCanvas.GetInstance();
+                _Group grop3 = MyMainGroup.GetInstance();
             }
             catch
             {

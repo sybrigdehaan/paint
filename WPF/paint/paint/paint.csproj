@@ -65,13 +65,14 @@
     </Compile>
     <Compile Include="Code\Managers\ChangeGroup.cs" />
     <Compile Include="Code\Managers\ChangeOrnament.cs" />
-    <Compile Include="Code\DP classes\CustumObjectVisitor.cs" />
+    <Compile Include="Code\Design Patterns\Visitors\CustomObjectVisitor.cs" />
+    <Compile Include="Code\Managers\SaveLoadManager.cs" />
     <Compile Include="Code\Objects\Figure.cs" />
     <Compile Include="Code\Objects\Group.cs" />
     <Compile Include="Code\Objects\Ornament.cs" />
-    <Compile Include="Code\DP classes\SimpleRemoteControl.cs" />
-    <Compile Include="Code\Unique classes\MyMainGroup.cs" />
-    <Compile Include="Code\Unique classes\MyInkCanvas.cs" />
+    <Compile Include="Code\Design Patterns\SimpleRemoteControl.cs" />
+    <Compile Include="Code\Design Patterns\Singletons\MyMainGroup.cs" />
+    <Compile Include="Code\Design Patterns\Singletons\MyInkCanvas.cs" />
     <Compile Include="Code\Managers\UndoRedoManager.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IFigures.cs" />

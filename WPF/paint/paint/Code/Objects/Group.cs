@@ -9,10 +9,11 @@ namespace paint
 {
     public class _Group : IFigures
     {
+        private int depthInList; 
         public Canvas groupCanvas = new Canvas();
 
+        public int GetDepthInList() { return depthInList; }
         public FrameworkElement GetShape () {return groupCanvas; }
-
         public List<IFigures> SubFigures { get; } = new List<IFigures>();
 
         public void Add(IFigures figure)
@@ -25,21 +26,23 @@ namespace paint
             SubFigures.Remove(figure);
         }
 
-        public void ShowFigureDetails()
+        public void DepthInList(int depthInList)
         {
-            Console.WriteLine("Group");
+            this.depthInList = depthInList;
+            depthInList += 1;
             foreach (IFigures fig in SubFigures)
             {
-                fig.ShowFigureDetails();
+                fig.DepthInList(depthInList);
             }
+           
         }
         
-        public void Get_Shape(ref List<IFigures> _ShapesList)
+        public void Accept(ICustomObjectVisitor visitor)
         {
-            _ShapesList.Add(this); 
+            visitor.Visit(this); 
             foreach (IFigures fig in SubFigures)
             {
-                fig.Get_Shape(ref _ShapesList); 
+                fig.Accept(visitor);
             }
         }
 

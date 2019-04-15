@@ -17,6 +17,7 @@ namespace paint
 
         public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
         public static UndoRedoManager undoRedoManager = new UndoRedoManager();
+        public static SaveLoadManager saveLoadManager = new SaveLoadManager(); 
 
         public static InkCanvas myInkCanvas = MyInkCanvas.GetInstance();
         public static _Group myMainGroup = MyMainGroup.GetInstance();
@@ -55,9 +56,10 @@ namespace paint
         {
             switch (((FrameworkElement)sender).Name)
             {
-                case "OpenFile":
+                case "Load":
                     break;
                 case "Save":
+                    saveLoadManager.Save(); 
                     break;
                 case "Redo":
                     undoRedoManager.Redo();
@@ -128,11 +130,8 @@ namespace paint
 
                         if (typeof(_Group) == eraserSelectedFigure.GetType())
                         {
-                            remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(eraserSelectedFigure as _Group) };
+                            remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup((eraserSelectedFigure as _Group)) };
                             remote.buttonWasPressed();
-
-                            remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(eraserSelectedFigure as _Group, (eraserSelectedFigure as _Group).SubFigures) };
-                            undoRedoManager.AddToUndo(remote);
                         }
 
                         else
@@ -155,7 +154,7 @@ namespace paint
             myInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
             List<IFigures> _ShapesList = new List<IFigures>();
-            myMainGroup.Get_Shape(ref _ShapesList);
+            //myMainGroup.Get_Shape(ref _ShapesList);
 
             IFigures selectedFigure = null;
             foreach (IFigures figure in _ShapesList)
@@ -261,5 +260,4 @@ namespace paint
             }
         }
     }
-
 }

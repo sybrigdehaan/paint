@@ -11,7 +11,7 @@
             <ToolBar HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="145">
                 <Button Height="30" VerticalAlignment="Top" Width="30">
                     <Button.Content>
-                        <Image x:Name="OpenFile" Source="Icons/open_folder.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFile_MouseLeftButtonDown"></Image>
+                        <Image x:Name="Load" Source="Icons/open_folder.png" Cursor="Hand" MouseLeftButtonDown="Button_ChangeFile_MouseLeftButtonDown"></Image>
                     </Button.Content>
                 </Button>
                 <Button Height="30" VerticalAlignment="Top" Width="30">
