@@ -130,10 +130,9 @@ namespace paint
                         {
                             remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(eraserSelectedFigure as _Group) };
                             remote.buttonWasPressed();
-                            undoRedoManager.AddToUndo(remote);
 
                             remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(eraserSelectedFigure as _Group, (eraserSelectedFigure as _Group).SubFigures) };
-                            undoRedoManager.AddToRedo(remote);
+                            undoRedoManager.AddToUndo(remote);
                         }
 
                         else

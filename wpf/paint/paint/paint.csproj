@@ -63,16 +63,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Code\ChangeGroup.cs" />
-    <Compile Include="Code\ChangeOrnament.cs" />
-    <Compile Include="Code\CustumObjectVisitor.cs" />
-    <Compile Include="Code\Figure.cs" />
-    <Compile Include="Code\Group.cs" />
-    <Compile Include="Code\Ornament.cs" />
-    <Compile Include="Code\SimpleRemoteControl.cs" />
+    <Compile Include="Code\Managers\ChangeGroup.cs" />
+    <Compile Include="Code\Managers\ChangeOrnament.cs" />
+    <Compile Include="Code\DP classes\CustumObjectVisitor.cs" />
+    <Compile Include="Code\Objects\Figure.cs" />
+    <Compile Include="Code\Objects\Group.cs" />
+    <Compile Include="Code\Objects\Ornament.cs" />
+    <Compile Include="Code\DP classes\SimpleRemoteControl.cs" />
     <Compile Include="Code\Unique classes\MyMainGroup.cs" />
     <Compile Include="Code\Unique classes\MyInkCanvas.cs" />
-    <Compile Include="Code\UndoRedoManager.cs" />
+    <Compile Include="Code\Managers\UndoRedoManager.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IFigures.cs" />
     <Compile Include="Interfaces\ICustomObjectVisitor.cs" />
