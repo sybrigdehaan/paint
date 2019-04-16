@@ -11,6 +11,9 @@ namespace paint
     {
         public readonly string filePath = "../../../../../Drawings/Test001.txt";
 
+        /// <summary>
+        /// In deze functie wordt het opslaan van jou canvas geregeld
+        /// </summary>
         public void Save()
         {
             MyMainGroup.GetInstance().DepthInList(0);
@@ -19,6 +22,11 @@ namespace paint
             MyMainGroup.GetInstance().Accept(visitor);
         }
 
+        /// <summary>
+        /// In deze functie wordt alles wat in de textfile staat gelezen en wordt gegekenen wat voor object eerst aangemaakt moet worden.
+        /// Je werkt dus van achter naar voren. Alleereerst worden de diepste objecten aangemaakt en deze objecten worden in een group gedaan.
+        /// Daarna ga je een stap terug, uiteindelijk kom je dan bij je main canvas terecht!
+        /// </summary>
         public void Load()
         {
             _Shape _myShape = null; 
