@@ -29,6 +29,11 @@ namespace paint
             if (y1 < y2) InkCanvas.SetTop(myShape, y1); else InkCanvas.SetTop(myShape, y2);
         }
 
+        public void SetColor()
+        {
+            myShape.Fill = MainWindow.mySolidColorBrushRed;
+        }
+
         public void DepthInList(int depthInList)
         {
             this.depthInList = depthInList;

@@ -57,6 +57,7 @@ namespace paint
             switch (((FrameworkElement)sender).Name)
             {
                 case "Load":
+                    saveLoadManager.Load(); 
                     break;
                 case "Save":
                     saveLoadManager.Save(); 

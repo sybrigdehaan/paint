@@ -24,21 +24,20 @@ namespace paint
 
         public void Visit(IFigures figure)
         {
-            
-            string jump = new String(' ', figure.GetDepthInList()); 
+            string jump = new String('-', figure.GetDepthInList()); 
 
             StreamWriter textFile = File.AppendText(MainWindow.saveLoadManager.filePath);
             SetTextFile(textFile); 
             FrameworkElement element = figure.GetShape();
             if (typeof(_Group) == figure.GetType())
-                textFile.WriteLine(jump + "Group");
+                textFile.WriteLine(jump + " " + "Group");
 
             if (typeof(_Rectangle) == figure.GetType())
-                textFile.WriteLine(jump + "Rectangle" + " " + InkCanvas.GetLeft(element) + " " + InkCanvas.GetTop(element)
+                textFile.WriteLine(jump + " " + "Rectangle" + " " + InkCanvas.GetLeft(element) + " " + InkCanvas.GetTop(element)
                     + " " + element.Width + " " + element.Height);
 
             if (typeof(_Ellipse) == figure.GetType())
-                textFile.WriteLine(jump + "Ellipse" + " " + InkCanvas.GetLeft(element) + " " + InkCanvas.GetTop(element)
+                textFile.WriteLine(jump + " " + "Ellipse" + " " + InkCanvas.GetLeft(element) + " " + InkCanvas.GetTop(element)
                     + " " + element.Width + " " + element.Height);
 
             textFile.Close(); 
