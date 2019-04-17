@@ -30,7 +30,7 @@ namespace paint
             SetTextFile(textFile); 
             FrameworkElement element = figure.GetShape();
             if (typeof(_Group) == figure.GetType())
-                textFile.WriteLine(jump + " " + "Group");
+                textFile.WriteLine(jump + " " + "Group" + " " + InkCanvas.GetLeft(element) + " " + InkCanvas.GetTop(element));
 
             if (typeof(_Rectangle) == figure.GetType())
                 textFile.WriteLine(jump + " " + "Rectangle" + " " + InkCanvas.GetLeft(element) + " " + InkCanvas.GetTop(element)

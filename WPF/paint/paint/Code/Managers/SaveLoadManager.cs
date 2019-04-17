@@ -38,7 +38,6 @@ namespace paint
             foreach (IFigures figure in MyMainGroup.GetInstance().SubFigures.ToList())
             {
                 MyMainGroup.GetInstance().Remove(figure);
-                MyInkCanvas.GetInstance().Children.Remove(figure.GetShape());
             }
             
             List<string> lines = File.ReadAllLines(filePath).ToList();
