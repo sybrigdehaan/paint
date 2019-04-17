@@ -1,3 +1,0 @@
-- Group
--- Rectangle 177,5 66 81 140
--- Rectangle 308,5 93 100 141

@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace paint
 {
-    public class CustumObjectVisitor : ICustomObjectVisitor
+    public class WriteToFileVisitor : IWriteToFileVisitor
     {
         private StreamWriter textFile; 
         public void SetTextFile(StreamWriter textFile)

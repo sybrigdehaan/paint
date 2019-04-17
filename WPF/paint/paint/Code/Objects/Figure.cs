@@ -39,21 +39,19 @@ namespace paint
             this.depthInList = depthInList;
         }
 
-        public void Accept(ICustomObjectVisitor visitor)
+        public void Accept(IWriteToFileVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public void Make(List<IFigures> selectedFigures = null)
+        public void Make()
         {
-            MyMainGroup.GetInstance().Add(this); 
-            MyInkCanvas.GetInstance().Children.Add(myShape);
+            MainWindow.addRemoveVisitor.AddVisit(this); 
         }
-
+        
         public void Destroy()
         {
-            MyMainGroup.GetInstance().Remove(this); 
-            MyInkCanvas.GetInstance().Children.Remove(myShape);
+            MainWindow.addRemoveVisitor.RemoveVisit(this); 
         }
     }
 

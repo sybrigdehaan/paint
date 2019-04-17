@@ -63,9 +63,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Code\Design Patterns\Visitors\AddRemoveVisitor.cs" />
     <Compile Include="Code\Managers\ChangeGroup.cs" />
     <Compile Include="Code\Managers\ChangeOrnament.cs" />
-    <Compile Include="Code\Design Patterns\Visitors\CustomObjectVisitor.cs" />
+    <Compile Include="Code\Design Patterns\Visitors\WriteToFileVisitor.cs" />
     <Compile Include="Code\Managers\SaveLoadManager.cs" />
     <Compile Include="Code\Objects\Figure.cs" />
     <Compile Include="Code\Objects\Group.cs" />
@@ -74,9 +75,10 @@
     <Compile Include="Code\Design Patterns\Singletons\MyMainGroup.cs" />
     <Compile Include="Code\Design Patterns\Singletons\MyInkCanvas.cs" />
     <Compile Include="Code\Managers\UndoRedoManager.cs" />
-    <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\ICommands\ICommand.cs" />
     <Compile Include="Interfaces\IFigures.cs" />
-    <Compile Include="Interfaces\ICustomObjectVisitor.cs" />
+    <Compile Include="Interfaces\IVisitors\IAddRemoveVisitor.cs" />
+    <Compile Include="Interfaces\IVisitors\IWriteToFileVisitor.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

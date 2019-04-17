@@ -8,8 +8,9 @@ using System.IO;
 
 namespace paint
 {
-    public interface ICustomObjectVisitor
+    public interface IWriteToFileVisitor
     {
+        // WriteToFileVisitor
         void SetTextFile(StreamWriter textFile);
         StreamWriter GetTextFile(); 
         void Visit(IFigures figure); 

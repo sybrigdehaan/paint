@@ -14,8 +14,12 @@ namespace paint
         FrameworkElement GetShape();
         int GetDepthInList(); 
         void DepthInList(int depthInList);
-        void Make(List<IFigures> selectedFigures = null);
+
+        //Commands 
+        void Make();
         void Destroy();
-        void Accept(ICustomObjectVisitor visitor);
+
+        //VIsitor
+        void Accept(IWriteToFileVisitor visitor);
     }
 }

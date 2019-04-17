@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using System.Windows.Ink;
+using System.Linq;
 
 namespace paint
 {
@@ -17,14 +18,12 @@ namespace paint
 
         public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
         public static UndoRedoManager undoRedoManager = new UndoRedoManager();
-        public static SaveLoadManager saveLoadManager = new SaveLoadManager(); 
-
+        public static SaveLoadManager saveLoadManager = new SaveLoadManager();
+        public static IAddRemoveVisitor addRemoveVisitor = new AddRemoveVisitor();
         public static InkCanvas myInkCanvas = MyInkCanvas.GetInstance();
         public static _Group myMainGroup = MyMainGroup.GetInstance();
-
-        private ICustomObjectVisitor visitor = new CustumObjectVisitor();
+     
         private SimpleRemoteControl remote = new SimpleRemoteControl();
-
         private _Ellipse myEllipse;
         private _Rectangle myRectangle;
 
@@ -90,11 +89,11 @@ namespace paint
                         }
                     }
 
-                    remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(selectedGroup) };
+                    remote = new SimpleRemoteControl { SetCommand = new _UnGroup(selectedGroup) };
                     remote.buttonWasPressed();
                     undoRedoManager.AddToUndo(remote);
 
-                    remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(selectedGroup, selectedGroup.SubFigures) };
+                    remote = new SimpleRemoteControl { SetCommand = new _EnGroup(selectedGroup, selectedGroup.SubFigures) };
                     undoRedoManager.AddToRedo(remote);
                     break;
                 case "Add_Group":
@@ -109,12 +108,12 @@ namespace paint
                     }
             
                     _Group myGroup = new _Group();
-                    SimpleRemoteControl makeRemote = new SimpleRemoteControl { SetCommand = new _MakeGroup(myGroup, selectedFigures) };
-                    makeRemote.buttonWasPressed();
-                    undoRedoManager.AddToRedo(makeRemote);
+                    remote = new SimpleRemoteControl { SetCommand = new _EnGroup(myGroup, selectedFigures) };
+                    remote.buttonWasPressed();
+                    undoRedoManager.AddToRedo(remote);
 
-                    SimpleRemoteControl destroyRemote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(myGroup) };
-                    undoRedoManager.AddToUndo(destroyRemote);
+                    remote = new SimpleRemoteControl { SetCommand = new _UnGroup(myGroup) };
+                    undoRedoManager.AddToUndo(remote);
                     break;
                 case "Select":
                     myInkCanvas.EditingMode = InkCanvasEditingMode.Select;
@@ -131,8 +130,13 @@ namespace paint
 
                         if (typeof(_Group) == eraserSelectedFigure.GetType())
                         {
-                            remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup((eraserSelectedFigure as _Group)) };
-                            remote.buttonWasPressed();
+                            SimpleRemoteControl enRemote = new SimpleRemoteControl { SetCommand = new _EnGroup((eraserSelectedFigure as _Group),
+                               (eraserSelectedFigure as _Group).SubFigures.ToList()) };
+                            undoRedoManager.AddToUndo(enRemote);
+
+                            SimpleRemoteControl deRemote = new SimpleRemoteControl { SetCommand = new _DestroyGroup((eraserSelectedFigure as _Group)) };
+                            deRemote.buttonWasPressed();
+                            undoRedoManager.AddToRedo(deRemote);
                         }
 
                         else

@@ -37,7 +37,7 @@ namespace paint
            
         }
         
-        public void Accept(ICustomObjectVisitor visitor)
+        public void Accept(IWriteToFileVisitor visitor)
         {
             visitor.Visit(this); 
             foreach (IFigures fig in SubFigures)
@@ -46,30 +46,37 @@ namespace paint
             }
         }
 
-        public void Make(List<IFigures> selectedFigures)
+        public void Make()
         {
-            ChangeGroup.AddTo_Group(this, selectedFigures);
+            MainWindow.addRemoveVisitor.AddVisit(this); 
         }
 
         public void Destroy()
         {
+            MainWindow.addRemoveVisitor.RemoveVisit(this); 
+        }
+
+        public void EnGroup(List<IFigures> selectedFigures)
+        {
+            ChangeGroup.AddTo_Group(this, selectedFigures);
+        }
+
+        public void UnGroup()
+        {
             ChangeGroup.Un_Group(this);
         }
     }
-
     public class _MakeGroup : ICommand
     {
         private _Group _myGroup;
-        private List<IFigures> selectedFigures;
-        public _MakeGroup(_Group _myGroup, List<IFigures> selectedFigures)
+        public _MakeGroup(_Group _myGroup)
         {
             this._myGroup = _myGroup;
-            this.selectedFigures = selectedFigures;
         }
 
         public void Execute()
         {
-            _myGroup.Make(selectedFigures);
+            _myGroup.Make();
         }
     }
 
@@ -84,6 +91,36 @@ namespace paint
         public void Execute()
         {
             _myGroup.Destroy();
+        }
+    }
+
+    public class _EnGroup : ICommand
+    {
+        private _Group _myGroup;
+        private List<IFigures> selectedFigures;
+        public _EnGroup(_Group _myGroup, List<IFigures> selectedFigures)
+        {
+            this._myGroup = _myGroup;
+            this.selectedFigures = selectedFigures;
+        }
+
+        public void Execute()
+        {
+            _myGroup.EnGroup(selectedFigures);
+        }
+    }
+
+    public class _UnGroup : ICommand
+    {
+        private _Group _myGroup;
+        public _UnGroup(_Group _myGroup)
+        {
+            this._myGroup = _myGroup;
+        }
+
+        public void Execute()
+        {
+            _myGroup.UnGroup();
         }
     }
 }

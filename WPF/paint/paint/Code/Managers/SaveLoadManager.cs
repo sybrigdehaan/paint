@@ -17,7 +17,7 @@ namespace paint
         public void Save()
         {
             MyMainGroup.GetInstance().DepthInList(0);
-            ICustomObjectVisitor visitor = new CustumObjectVisitor();
+            IWriteToFileVisitor visitor = new WriteToFileVisitor();
             File.WriteAllText(filePath, string.Empty);
             MyMainGroup.GetInstance().Accept(visitor);
         }
@@ -85,7 +85,7 @@ namespace paint
 
                 if ((i - 1 ) != 0)
                 {
-                    remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(group, subFigures) };
+                    remote = new SimpleRemoteControl { SetCommand = new _EnGroup(group, subFigures) };
                     remote.buttonWasPressed();
                     subFigures = new List<IFigures>();
                     subFigures.Add(group);
