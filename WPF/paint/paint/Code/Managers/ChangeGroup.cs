@@ -13,95 +13,75 @@ namespace paint
     {
         public static void AddTo_Group(_Group myGroup, List<IFigures> selectedFigures)
         {
-            try
+            Canvas groupCanvas = (myGroup.GetShape() as Canvas);
+            groupCanvas.Background = Brushes.Transparent;
+            groupCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
+
+            double nearestTop = InkCanvas.GetTop(selectedFigures[0].GetShape()), nearestLeft = InkCanvas.GetLeft(selectedFigures[0].GetShape());
+            double farthestRight = 0, farthestBottom = 0;
+
+            foreach (IFigures figures in selectedFigures)
             {
-                Canvas groupCanvas = (myGroup.GetShape() as Canvas);
-                groupCanvas.Background = Brushes.Transparent;
-                groupCanvas.SizeChanged += new SizeChangedEventHandler(SizeChanged);
+                MyMainGroup.GetInstance().Remove(figures);
+                MyInkCanvas.GetInstance().Children.Remove(figures.GetShape());
 
-                double nearestTop = InkCanvas.GetTop(selectedFigures[0].GetShape()), nearestLeft = InkCanvas.GetLeft(selectedFigures[0].GetShape());
-                double farthestRight = 0, farthestBottom = 0;
+                InkCanvas ink = MyInkCanvas.GetInstance();
+                _Group grop = MyMainGroup.GetInstance();
 
-                foreach (IFigures figures in selectedFigures)
-                {
-                    MyMainGroup.GetInstance().Remove(figures);
-                    MyInkCanvas.GetInstance().Children.Remove(figures.GetShape());
+                myGroup.Add(figures);
+                groupCanvas.Children.Add(figures.GetShape());
 
-                    InkCanvas ink = MyInkCanvas.GetInstance();
-                    _Group grop = MyMainGroup.GetInstance(); 
-                    
-                    myGroup.Add(figures);
-                    groupCanvas.Children.Add(figures.GetShape());
+                InkCanvas ink1 = MyInkCanvas.GetInstance();
+                _Group grop1 = MyMainGroup.GetInstance();
 
-                    InkCanvas ink1 = MyInkCanvas.GetInstance();
-                    _Group grop1 = MyMainGroup.GetInstance();
-
-                    //Checking how the inkcanvas position must be.
-                    if (InkCanvas.GetLeft(figures.GetShape()) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(figures.GetShape()); }
-                    if (InkCanvas.GetTop(figures.GetShape()) < nearestTop) { nearestTop = InkCanvas.GetTop(figures.GetShape()); }
-                }
-
-
-                foreach (IFigures figures in selectedFigures)
-                {
-                    FrameworkElement myShape = figures.GetShape();
-                    //Set the right top and left for the object to set in the inkcanvas
-                    double myTop = InkCanvas.GetTop(myShape);
-                    double myLeft = InkCanvas.GetLeft(myShape);
-                    Canvas.SetTop(myShape, (myTop - nearestTop));
-                    Canvas.SetLeft(myShape, (myLeft - nearestLeft));
-
-                    //Checking which object is the farthest away for the width and height of the inkcanvas.
-                    if (Canvas.GetLeft(myShape) + myShape.Width > farthestRight) { farthestRight = Canvas.GetLeft(myShape) + myShape.Width; }
-                    if (Canvas.GetTop(myShape) + myShape.Height > farthestBottom) { farthestBottom = Canvas.GetTop(myShape) + myShape.Height; }
-                }
-
-                InkCanvas.SetTop(groupCanvas, nearestTop);
-                InkCanvas.SetLeft(groupCanvas, nearestLeft);
-                groupCanvas.Width = farthestRight;
-                groupCanvas.Height = farthestBottom;
-
-                InkCanvas ink2 = MyInkCanvas.GetInstance();
-                _Group grop2 = MyMainGroup.GetInstance();
-
-                MyMainGroup.GetInstance().Add(myGroup);
-                MyInkCanvas.GetInstance().Children.Add(groupCanvas);
-
-                InkCanvas ink3 = MyInkCanvas.GetInstance();
-                _Group grop3 = MyMainGroup.GetInstance();
+                //Checking how the inkcanvas position must be.
+                if (InkCanvas.GetLeft(figures.GetShape()) < nearestLeft) { nearestLeft = InkCanvas.GetLeft(figures.GetShape()); }
+                if (InkCanvas.GetTop(figures.GetShape()) < nearestTop) { nearestTop = InkCanvas.GetTop(figures.GetShape()); }
             }
-            catch
+
+
+            foreach (IFigures figures in selectedFigures)
             {
-                MessageBox.Show("Something went horribly wrong :(");
+                FrameworkElement myShape = figures.GetShape();
+                //Set the right top and left for the object to set in the inkcanvas
+                double myTop = InkCanvas.GetTop(myShape);
+                double myLeft = InkCanvas.GetLeft(myShape);
+                Canvas.SetTop(myShape, (myTop - nearestTop));
+                Canvas.SetLeft(myShape, (myLeft - nearestLeft));
+
+                //Checking which object is the farthest away for the width and height of the inkcanvas.
+                if (Canvas.GetLeft(myShape) + myShape.Width > farthestRight) { farthestRight = Canvas.GetLeft(myShape) + myShape.Width; }
+                if (Canvas.GetTop(myShape) + myShape.Height > farthestBottom) { farthestBottom = Canvas.GetTop(myShape) + myShape.Height; }
             }
+
+            InkCanvas.SetTop(groupCanvas, nearestTop);
+            InkCanvas.SetLeft(groupCanvas, nearestLeft);
+            groupCanvas.Width = farthestRight;
+            groupCanvas.Height = farthestBottom;
+
+            MyMainGroup.GetInstance().Add(myGroup);
+            MyInkCanvas.GetInstance().Children.Add(groupCanvas);
         }
 
         public static void Un_Group(_Group figure)
         {
-            try
+            MyMainGroup.GetInstance().Remove(figure);
+            MyInkCanvas.GetInstance().Children.Remove(figure.GetShape());
+
+            foreach (IFigures inGroupFigure in figure.SubFigures.ToList())
             {
-                MyMainGroup.GetInstance().Remove(figure);
-                MyInkCanvas.GetInstance().Children.Remove(figure.GetShape());
+                (figure.GetShape() as Canvas).Children.Remove(inGroupFigure.GetShape());
+                figure.Remove(inGroupFigure);
 
-                foreach (IFigures inGroupFigure in figure.SubFigures)
-                {
-                    (figure.GetShape() as Canvas).Children.Remove(inGroupFigure.GetShape());
+                FrameworkElement element = inGroupFigure.GetShape();
+                double elementTop = Canvas.GetTop(element) + InkCanvas.GetTop(figure.GetShape());
+                double elementLeft = Canvas.GetLeft(element) + InkCanvas.GetLeft(figure.GetShape());
 
-                    FrameworkElement element = inGroupFigure.GetShape();
-                    double elementTop = Canvas.GetTop(element) + InkCanvas.GetTop(figure.GetShape());
-                    double elementLeft = Canvas.GetLeft(element) + InkCanvas.GetLeft(figure.GetShape());
+                InkCanvas.SetTop(element, elementTop);
+                InkCanvas.SetLeft(element, elementLeft);
 
-                    InkCanvas.SetTop(element, elementTop);
-                    InkCanvas.SetLeft(element, elementLeft);
-
-                    MyMainGroup.GetInstance().Add(inGroupFigure);
-                    MyInkCanvas.GetInstance().Children.Add(element);
-                }
-
-            }
-            catch
-            {
-                MessageBox.Show("Something went horribly wrong :(");
+                MyMainGroup.GetInstance().Add(inGroupFigure);
+                MyInkCanvas.GetInstance().Children.Add(element);
             }
         }
 

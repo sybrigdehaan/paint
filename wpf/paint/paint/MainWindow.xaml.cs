@@ -109,12 +109,12 @@ namespace paint
                     }
             
                     _Group myGroup = new _Group();
-                    remote = new SimpleRemoteControl { SetCommand = new _MakeGroup(myGroup, selectedFigures) };
-                    remote.buttonWasPressed();
-                    undoRedoManager.AddToRedo(remote);
+                    SimpleRemoteControl makeRemote = new SimpleRemoteControl { SetCommand = new _MakeGroup(myGroup, selectedFigures) };
+                    makeRemote.buttonWasPressed();
+                    undoRedoManager.AddToRedo(makeRemote);
 
-                    remote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(myGroup) };
-                    undoRedoManager.AddToUndo(remote);
+                    SimpleRemoteControl destroyRemote = new SimpleRemoteControl { SetCommand = new _DestroyGroup(myGroup) };
+                    undoRedoManager.AddToUndo(destroyRemote);
                     break;
                 case "Select":
                     myInkCanvas.EditingMode = InkCanvasEditingMode.Select;
