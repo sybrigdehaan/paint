@@ -4,25 +4,37 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows;
+using System.Windows.Media;
+using System.Linq;
 
 namespace paint
 {
     public class _Group : IFigures
     {
-        private int depthInList; 
-        public Canvas groupCanvas = new Canvas();
+        private int depthInList;
+        private InkCanvas groupCanvas; 
 
         public int GetDepthInList() { return depthInList; }
-        public FrameworkElement GetShape () {return groupCanvas; }
+        public FrameworkElement GetShape() { return groupCanvas; }
         public List<IFigures> SubFigures { get; } = new List<IFigures>();
+
+        public _Group()
+        {
+            groupCanvas = new InkCanvas();
+            groupCanvas.EditingMode = InkCanvasEditingMode.None;
+            groupCanvas.Background = Brushes.Transparent;
+            groupCanvas.SizeChanged += new SizeChangedEventHandler(ChangeGroup.SizeChanged);
+        }
 
         public void Add(IFigures figure)
         {
+            groupCanvas.Children.Add(figure.GetShape());
             SubFigures.Add(figure);
         }
 
         public void Remove(IFigures figure)
         {
+            groupCanvas.Children.Remove(figure.GetShape());
             SubFigures.Remove(figure);
         }
 
@@ -34,26 +46,22 @@ namespace paint
             {
                 fig.DepthInList(depthInList);
             }
-           
         }
-        
+
         public void Accept(IWriteToFileVisitor visitor)
         {
-            visitor.Visit(this); 
+            visitor.Visit(this);
             foreach (IFigures fig in SubFigures)
             {
                 fig.Accept(visitor);
             }
         }
 
-        public void Make()
-        {
-            MainWindow.addRemoveVisitor.AddVisit(this); 
-        }
+        public void Make() { }
 
         public void Destroy()
         {
-            MainWindow.addRemoveVisitor.RemoveVisit(this); 
+            MainWindow.addRemoveVisitor.RemoveVisit(this);
         }
 
         public void EnGroup(List<IFigures> selectedFigures)
@@ -66,6 +74,7 @@ namespace paint
             ChangeGroup.Un_Group(this);
         }
     }
+
     public class _MakeGroup : ICommand
     {
         private _Group _myGroup;

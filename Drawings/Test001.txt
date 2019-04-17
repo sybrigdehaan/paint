@@ -1,0 +1,3 @@
+- Rectangle 100,5 82 218 232
+- Rectangle 167,5 159 150 154
+- Rectangle 167,5 130 268 32

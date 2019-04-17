@@ -20,15 +20,16 @@ namespace paint
         public static UndoRedoManager undoRedoManager = new UndoRedoManager();
         public static SaveLoadManager saveLoadManager = new SaveLoadManager();
         public static IAddRemoveVisitor addRemoveVisitor = new AddRemoveVisitor();
-        public static InkCanvas myInkCanvas = MyInkCanvas.GetInstance();
-        public static _Group myMainGroup = MyMainGroup.GetInstance();
-     
+
+        private _Group myMainGroup = MyMainGroup.GetInstance();
+        private InkCanvas myInkCanvas = null; 
         private SimpleRemoteControl remote = new SimpleRemoteControl();
         private _Ellipse myEllipse;
         private _Rectangle myRectangle;
 
         public MainWindow()
         {
+            myInkCanvas = (myMainGroup.GetShape() as InkCanvas);
             InitializeComponent();
             myGrid.Children.Add(myInkCanvas);
             myInkCanvas.EditingMode = InkCanvasEditingMode.None;

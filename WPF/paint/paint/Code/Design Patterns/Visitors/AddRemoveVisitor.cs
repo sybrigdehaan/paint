@@ -12,7 +12,6 @@ namespace paint
         public void AddVisit(IFigures figure)
         {
             MyMainGroup.GetInstance().Add(figure);
-            MyInkCanvas.GetInstance().Children.Add(figure.GetShape());
         }
 
         public void RemoveVisit(IFigures figure)
@@ -21,13 +20,11 @@ namespace paint
             {
                 foreach (IFigures inGroupFigure in (figure as _Group).SubFigures.ToList())
                 {
-                    (figure.GetShape() as Canvas).Children.Remove(inGroupFigure.GetShape());
                     (figure as _Group).Remove(inGroupFigure);
                 }
             }
 
             MyMainGroup.GetInstance().Remove(figure);
-            MyInkCanvas.GetInstance().Children.Remove(figure.GetShape());
         }
     }
 }
