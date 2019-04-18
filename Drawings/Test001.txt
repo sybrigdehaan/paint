@@ -1,6 +1,7 @@
-- Group 95 69,5
--- Rectangle 0 0 117 146
--- Rectangle 176 22 151 182
-- Group 553 29,5
--- Rectangle 69 0 126 96
--- Rectangle 0 132 107 159
+- Group 96,5 69
+-- Group 0 0
+--- Rectangle 0 13 96 120
+--- Rectangle 137 0 93 136
+-- Group 305 5
+--- Rectangle 0 2 97 125
+--- Rectangle 122 0 78 111
