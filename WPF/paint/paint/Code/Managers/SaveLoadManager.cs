@@ -44,6 +44,8 @@ namespace paint
             }
             
             List<string> lines = File.ReadAllLines(filePath).ToList();
+            
+            // Zoek welk lijn de meeste streepjes heeft
             foreach (string line in lines)
             {
                 int countJump = line.TakeWhile(c => c == '-').Count();
@@ -51,6 +53,7 @@ namespace paint
                     maxJump = countJump;
             }
 
+            // Begin van hoog naar laag 
             for (int i = maxJump; i > 0 ; i--)
             {
                 _Group group = null;
@@ -67,12 +70,21 @@ namespace paint
                         group = new _Group();
                         left = Convert.ToDouble(entries[2]);
                         top = Convert.ToDouble(entries[3]);
-                        reachedMax = false; 
                     }
 
+                    //Kijk of het aantal getelde streepjes gelijk is aan i (i staat gelijk aan het maximale streepjes die je zoekt)
                     if (countJump == i)
                     {
                         reachedMax = true; 
+                        if (nameObject == "Group")
+                        {
+                            IFigures figureShape = subFigures.First(); 
+                            InkCanvas.SetLeft(figureShape.GetShape(), Convert.ToDouble(entries[2]) + left);
+                            InkCanvas.SetTop(figureShape.GetShape(), Convert.ToDouble(entries[3]) + top);
+                            inSubFigures.Add(figureShape);
+                            subFigures.Remove(subFigures.First()); 
+                        }
+
                         if (nameObject == "Rectangle") {
                              _myShape = new _Rectangle(); }
 
@@ -96,29 +108,18 @@ namespace paint
 
                     int nextCountJump;
                     try { nextCountJump = lines[j + 1].TakeWhile(c => c == '-').Count(); } catch { nextCountJump = -1; }
-                    if (nextCountJump != i && reachedMax && (i - 1 != 0))
+                    if (nextCountJump < i && reachedMax && (i - 1 != 0))
                     {
                         remote = new SimpleRemoteControl { SetCommand = new _EnGroup(group, inSubFigures) };
                         remote.buttonWasPressed();
                         inSubFigures = new List<IFigures>();
                         subFigures.Add(group);
+                        top = 0;
+                        left = 0;
+                        reachedMax = false; 
                     }
                 }
-
-                //if ((i - 1) != 0 && subFigures.Count != 1 && subFigures.Count != 0)
-                //{
-                //    //group = new _Group();
-                //    //remote = new SimpleRemoteControl { SetCommand = new _EnGroup(group, subFigures) };
-                //    //remote.buttonWasPressed();
-                //    //subFigures = new List<IFigures>();
-                //    //subFigures.Add(group);
-                //}
             }
-            //foreach (IFigures figure in subFigures)
-            //{
-            //    MyMainGroup.GetInstance().Add(figure);
-            //}
-            
         }
     }
 }

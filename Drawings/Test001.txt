@@ -1,7 +1,4 @@
-- Group 96,5 69
--- Group 0 0
---- Rectangle 0 13 96 120
---- Rectangle 137 0 93 136
--- Group 305 5
---- Rectangle 0 2 97 125
---- Rectangle 122 0 78 111
+- Ellipse 680,5 58 82 91
+- Group 254,5 208
+-- Rectangle 0 64 189 103
+-- Rectangle 256 0 125 124
