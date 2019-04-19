@@ -54,7 +54,6 @@ namespace paint
 
         private void Button_ChangeFile_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            myInkCanvas.EditingMode = InkCanvasEditingMode.Select;
             switch (((FrameworkElement)sender).Name)
             {
                 case "Load":
