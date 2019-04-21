@@ -14,7 +14,7 @@ namespace paint
     {
         private Items currentItem;
         private bool drawn = false;
-        public static double x1, y1, x2, y2;
+        private double x1, y1, x2, y2;
 
         public static SolidColorBrush mySolidColorBrushRed = new SolidColorBrush();
         public static UndoRedoManager undoRedoManager = new UndoRedoManager();

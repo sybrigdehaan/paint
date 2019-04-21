@@ -19,7 +19,7 @@ namespace paint
         void Make();
         void Destroy();
 
-        //VIsitor
+        //Visitor
         void Accept(IWriteToFileVisitor visitor);
     }
 }
