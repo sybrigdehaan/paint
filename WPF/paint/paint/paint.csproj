@@ -75,8 +75,8 @@
     <Compile Include="Code\Design Patterns\Singletons\MyMainGroup.cs" />
     <Compile Include="Code\Managers\UndoRedoManager.cs" />
     <Compile Include="Interfaces\ICommands\ICommand.cs" />
-    <Compile Include="Interfaces\IFigures.cs" />
     <Compile Include="Interfaces\IVisitors\IAddRemoveVisitor.cs" />
+    <Compile Include="Interfaces\IVisitors\IFigures.cs" />
     <Compile Include="Interfaces\IVisitors\IWriteToFileVisitor.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
