@@ -159,11 +159,8 @@ namespace paint
             FrameworkElement[] myArray = new FrameworkElement[myInkCanvas.GetSelectedElements().Count];
             myInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
-            List<IFigures> _ShapesList = new List<IFigures>();
-            //myMainGroup.Get_Shape(ref _ShapesList);
-
             IFigures selectedFigure = null;
-            foreach (IFigures figure in _ShapesList)
+            foreach (IFigures figure in myMainGroup.SubFigures)
             {
                 if (figure.GetShape() == myArray[0])
                     selectedFigure = figure;
