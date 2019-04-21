@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace paint
 {
-    public class ChangeGroup  
+    public class ChangeGroup
     {
         public static void AddTo_Group(FrameworkElement[] myArray, ref _Group myMainGroup)
         {
