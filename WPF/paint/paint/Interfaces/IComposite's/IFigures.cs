@@ -21,6 +21,5 @@ namespace paint
 
         //Visitor
         void Accept(IWriteToFileVisitor visitor);
-
     }
 }

@@ -13,8 +13,7 @@ namespace paint
         private static MyMainGroup myMainGroup;
 
         // Private constructor om te voorkomen dat anderen een instantie kunnen aanmaken.
-        private MyMainGroup() {
-        }
+        private MyMainGroup() { }
 
         // Via een static read-only property kan de instantie benaderd worden.
         public static MyMainGroup GetInstance()
