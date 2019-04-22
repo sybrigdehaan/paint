@@ -10,13 +10,10 @@ namespace paint
     public abstract class _Shape : IFigures
     {
         protected Shape myShape;
-        protected List<Ornament> myOrnament;
         protected int depthInList; 
 
         public int GetDepthInList() { return depthInList; }
         public FrameworkElement GetShape(){ return myShape;  }
-
-        public Ornament _Ornament { set { myOrnament.Add(value); } }
 
         public virtual void ShowFigureDetails() { }
 

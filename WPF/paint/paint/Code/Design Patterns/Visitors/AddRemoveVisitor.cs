@@ -23,7 +23,7 @@ namespace paint
                     (figure as _Group).Remove(inGroupFigure);
                 }
             }
-
+            
             MyMainGroup.GetInstance().Remove(figure);
         }
     }

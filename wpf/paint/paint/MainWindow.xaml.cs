@@ -128,25 +128,34 @@ namespace paint
                             if (figure.GetShape() == myArray[i])
                                 eraserSelectedFigure = figure;
                         }
-
-                        if (typeof(_Group) == eraserSelectedFigure.GetType())
+                        try
                         {
-                            SimpleRemoteControl enRemote = new SimpleRemoteControl { SetCommand = new _EnGroup((eraserSelectedFigure as _Group),
-                               (eraserSelectedFigure as _Group).SubFigures.ToList()) };
-                            undoRedoManager.AddToUndo(enRemote);
+                            if (typeof(_Group) == eraserSelectedFigure.GetType())
+                            {
+                                SimpleRemoteControl enRemote = new SimpleRemoteControl
+                                {
+                                    SetCommand = new _EnGroup((eraserSelectedFigure as _Group),
+                                   (eraserSelectedFigure as _Group).SubFigures.ToList())
+                                };
+                                undoRedoManager.AddToUndo(enRemote);
 
-                            SimpleRemoteControl deRemote = new SimpleRemoteControl { SetCommand = new _DestroyGroup((eraserSelectedFigure as _Group)) };
-                            deRemote.buttonWasPressed();
-                            undoRedoManager.AddToRedo(deRemote);
+                                SimpleRemoteControl deRemote = new SimpleRemoteControl { SetCommand = new _DestroyGroup((eraserSelectedFigure as _Group)) };
+                                deRemote.buttonWasPressed();
+                                undoRedoManager.AddToRedo(deRemote);
+                            }
+
+                            else
+                            {
+                                remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(eraserSelectedFigure) };
+                                remote.buttonWasPressed();
+
+                                remote = new SimpleRemoteControl { SetCommand = new _MakeShape(eraserSelectedFigure) };
+                                undoRedoManager.AddToUndo(remote);
+                            }
                         }
-
-                        else
+                        catch
                         {
-                            remote = new SimpleRemoteControl { SetCommand = new _DestroyShape(eraserSelectedFigure) };
-                            remote.buttonWasPressed();
-
-                            remote = new SimpleRemoteControl { SetCommand = new _MakeShape(eraserSelectedFigure) };
-                            undoRedoManager.AddToUndo(remote);
+                            (MyMainGroup.GetInstance().GetShape() as InkCanvas).Children.Remove(myArray[i]); 
                         }
                     }
                     break;
@@ -155,7 +164,7 @@ namespace paint
 
         private void Button_AddToFigure_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
-            // haalt alle geslecteerde items op en zet het in array Shape
+            // Haalt alle geslecteerde items op en zet het in array Shape
             FrameworkElement[] myArray = new FrameworkElement[myInkCanvas.GetSelectedElements().Count];
             myInkCanvas.GetSelectedElements().CopyTo(myArray, 0);
 
@@ -166,41 +175,20 @@ namespace paint
                     selectedFigure = figure;
             }
 
-            // haalt naam op van de het aangeklikte element
+            // Haalt naam op van de het aangeklikte element
             switch (((FrameworkElement)sender).Name)
             {
-                case "OrnamentRight":
-                    double ornamentRightLeft = InkCanvas.GetLeft(myArray[0]);
-                    double ornamentRightTop = InkCanvas.GetTop(myArray[0]);
-                    double OrnamentRightHeigth = myArray[0].Height / 2;
-                    double OrnamentRightWidht = myArray[0].Width;
-                    Right ornamentRight = new Right("ornament", (ornamentRightLeft + OrnamentRightWidht), (OrnamentRightHeigth + ornamentRightTop));
-                    ornamentRight.Add(ref myInkCanvas, selectedFigure);
-                    break;
-
                 case "OrnamentLeft":
-                    double OrnamentLeftLeft = InkCanvas.GetLeft(myArray[0]);
-                    double OrnamentLeftTop = InkCanvas.GetTop(myArray[0]);
-                    double OrnamentLeftHeigth = myArray[0].Height / 2;
-                    Left ornamentLeft = new Left("ornament", OrnamentLeftLeft, (OrnamentLeftHeigth + OrnamentLeftTop));
-                    ornamentLeft.Add(ref myInkCanvas, selectedFigure);
+                    selectedFigure = new Left(selectedFigure);
                     break;
-
+                case "OrnamentRight":
+                    selectedFigure = new Right(selectedFigure); 
+                    break;
                 case "OrnamentTop":
-                    double OrnamentTopRight = InkCanvas.GetLeft(myArray[0]);
-                    double ornamentTopTop = InkCanvas.GetTop(myArray[0]);
-                    double OrnamentTopWidth = myArray[0].Width / 2;
-                    Top ornamenTtop = new Top("ornament", (OrnamentTopWidth + OrnamentTopRight), ornamentTopTop);
-                    ornamenTtop.Add(ref myInkCanvas, selectedFigure);
+                    selectedFigure = new Top(selectedFigure);
                     break;
-
                 case "OrnamentBottom":
-                    double OrnamentBottomRight = InkCanvas.GetLeft(myArray[0]);
-                    double ornamentBottomTop = InkCanvas.GetTop(myArray[0]);
-                    double OrnamentBottomWidth = myArray[0].Width / 2;
-                    double OrnamentBottomHeight = myArray[0].Height;
-                    Bottom OrnamentBottom = new Bottom("ornament", (ornamentBottomTop + OrnamentBottomWidth), (ornamentBottomTop + OrnamentBottomHeight));
-                    OrnamentBottom.Add(ref myInkCanvas, selectedFigure);
+                    selectedFigure = new Bottom(selectedFigure);
                     break;
             }
         }
