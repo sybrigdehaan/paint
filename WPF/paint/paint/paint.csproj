@@ -65,8 +65,8 @@
     </Compile>
     <Compile Include="Code\Design Patterns\Visitors\AddRemoveVisitor.cs" />
     <Compile Include="Code\Managers\ChangeGroup.cs" />
-    <Compile Include="Code\Managers\ChangeOrnament.cs" />
     <Compile Include="Code\Design Patterns\Visitors\WriteToFileVisitor.cs" />
+    <Compile Include="Code\Managers\ChangeOrnament.cs" />
     <Compile Include="Code\Managers\SaveLoadManager.cs" />
     <Compile Include="Code\Objects\Figure.cs" />
     <Compile Include="Code\Objects\Group.cs" />
